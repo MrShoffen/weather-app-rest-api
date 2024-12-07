@@ -31,7 +31,7 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     implementation 'org.liquibase:liquibase-core'
 
-// https://mvnrepository.com/artifact/org.mindrot/jbcrypt
+
     implementation 'org.mindrot:jbcrypt:0.4'
 
     compileOnly 'org.projectlombok:lombok'
