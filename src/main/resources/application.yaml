@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://192.168.0.133:5511/weather
+    username: postgres
+    password: 1337
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    open-in-view: false
+    properties.hibernate:
+      show_sql: true
+      format_sql: true
+      hbm2ddl.auto: validate
+      default_schema: weather
+
+  mvc:
+    servlet:
+      path: /weather/api
+
+
