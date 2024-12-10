@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://192.168.0.133:5511/weather
+    url: jdbc:postgresql://192.168.0.125:3434/postgres
     username: postgres
     password: 1337
     driver-class-name: org.postgresql.Driver
@@ -17,4 +17,9 @@ spring:
     servlet:
       path: /weather/api
 
+session:
+  expires-after: 60
+  cookie:
+    name: USER_SESSION
+    max-age: 3600
 

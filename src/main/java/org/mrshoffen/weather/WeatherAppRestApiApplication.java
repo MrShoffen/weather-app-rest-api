@@ -1,10 +1,9 @@
 package org.mrshoffen.weather;
 
-import jakarta.persistence.EntityManager;
+import org.mrshoffen.weather.dto.UserLoginDto;
 import org.mrshoffen.weather.dto.UserRegistrationDto;
-import org.mrshoffen.weather.entity.User;
-import org.mrshoffen.weather.repository.UserRepository;
-import org.mrshoffen.weather.service.UserService;
+import org.mrshoffen.weather.service.AuthenticationService;
+import org.mrshoffen.weather.service.SessionService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -14,13 +13,19 @@ public class WeatherAppRestApiApplication {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext config = SpringApplication.run(WeatherAppRestApiApplication.class, args);
-        var bean = config.getBean(UserService.class);
+        var auth = config.getBean(AuthenticationService.class);
 
-        UserRegistrationDto dto = new UserRegistrationDto("mrshoffen3", "dfjsldfjsdl");
+        UserRegistrationDto dto = new UserRegistrationDto("zhuk", "1337");
 
-        bean.register(dto);
+//        auth.register(dto);
+
+        UserLoginDto zhuk = new UserLoginDto("zhuk", "1337");
+
+        auth.login(zhuk);
+
 
         System.out.println();
+
 
     }
 

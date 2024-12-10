@@ -1,6 +1,5 @@
 --liquibase formatted sql
 
-
 --changeset mrshoffen:1
 CREATE SCHEMA IF NOT EXISTS weather;
 
@@ -8,6 +7,6 @@ CREATE SCHEMA IF NOT EXISTS weather;
 CREATE TABLE IF NOT EXISTS weather.users
 (
     id       SERIAL PRIMARY KEY,
-    username    VARCHAR(64) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
+    username    VARCHAR(32) NOT NULL UNIQUE,
+    password VARCHAR(64) NOT NULL
 );
