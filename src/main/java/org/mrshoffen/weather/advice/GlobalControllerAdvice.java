@@ -1,9 +1,12 @@
 package org.mrshoffen.weather.advice;
 
 
-import org.mrshoffen.weather.exception.IncorrectPasswordException;
-import org.mrshoffen.weather.exception.UserAlreadyExistsException;
-import org.mrshoffen.weather.exception.UserNotFoundException;
+import org.mrshoffen.weather.exception.*;
+import org.mrshoffen.weather.exception.authentication.IncorrectPasswordException;
+import org.mrshoffen.weather.exception.authentication.UserAlreadyExistsException;
+import org.mrshoffen.weather.exception.authorization.SessionExpiredException;
+import org.mrshoffen.weather.exception.authorization.UserAlreadyAuthorizedException;
+import org.mrshoffen.weather.exception.authorization.UserUnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +31,22 @@ public class GlobalControllerAdvice {
         return getProblemDetailResponseEntity(HttpStatus.UNAUTHORIZED, e.getMessage());
     }
 
+    @ExceptionHandler(UserUnauthorizedException.class)
+    public ResponseEntity<ProblemDetail> handleUnauthorizedUserException(UserUnauthorizedException e) {
+        return getProblemDetailResponseEntity(HttpStatus.UNAUTHORIZED, e.getMessage());
+    }
+
+    @ExceptionHandler(SessionExpiredException.class)
+    public ResponseEntity<ProblemDetail> handleSessionExpiredException(SessionExpiredException e) {
+        return getProblemDetailResponseEntity(HttpStatus.UNAUTHORIZED, e.getMessage());
+    }
+
+    @ExceptionHandler(UserAlreadyAuthorizedException.class)
+    public ResponseEntity<ProblemDetail> handleUserAlreadyAuthorizedException(UserAlreadyAuthorizedException e) {
+        return getProblemDetailResponseEntity(HttpStatus.FORBIDDEN, e.getMessage());
+
+    }
+
     private static ResponseEntity<ProblemDetail> getProblemDetailResponseEntity(HttpStatus status, String errorMessage) {
         var problemDetail = ProblemDetail.forStatusAndDetail(status, errorMessage);
 
@@ -35,5 +54,7 @@ public class GlobalControllerAdvice {
                 .status(status)
                 .body(problemDetail);
     }
+
+
 
 }

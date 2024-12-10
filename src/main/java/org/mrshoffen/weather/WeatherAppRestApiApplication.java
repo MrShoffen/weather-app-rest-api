@@ -8,6 +8,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.util.UUID;
+
 @SpringBootApplication
 public class WeatherAppRestApiApplication {
 
@@ -21,7 +23,11 @@ public class WeatherAppRestApiApplication {
 
         UserLoginDto zhuk = new UserLoginDto("zhuk", "1337");
 
-        auth.login(zhuk);
+        UUID uuid = auth.login(zhuk);
+
+        SessionService bean = config.getBean(SessionService.class);
+
+        bean.getSessionById(uuid);
 
 
         System.out.println();

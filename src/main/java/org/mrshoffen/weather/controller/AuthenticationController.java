@@ -2,36 +2,37 @@ package org.mrshoffen.weather.controller;
 
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.mrshoffen.weather.dto.UserLoginDto;
 import org.mrshoffen.weather.dto.UserRegistrationDto;
 import org.mrshoffen.weather.dto.UserResponseDto;
+import org.mrshoffen.weather.exception.authorization.UserUnauthorizedException;
 import org.mrshoffen.weather.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
 
 import static org.mrshoffen.weather.util.CookieUtil.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    @Value("${session.cookie.max-age}")
+    @Value("${session.minutes-before-expire}")
     private int sessionCookieAge;
 
-    @Value("${session.cookie.name}")
+    @Value("${session.cookie-name}")
     private String sessionCookieName;
 
     @PostMapping("/registration")
@@ -45,14 +46,31 @@ public class AuthController {
 
     @PostMapping("/login")
     ResponseEntity<Void> login(@RequestBody UserLoginDto userLoginDto,
-                                          HttpServletResponse response) throws URISyntaxException {
+                               HttpServletResponse response) {
 
         UUID uuid = authenticationService.login(userLoginDto);
 
-        Cookie cookie = createCustomCookie(sessionCookieName, uuid.toString(), sessionCookieAge);
+        Cookie cookie = createCustomCookie(sessionCookieName, uuid.toString(), sessionCookieAge * 60);
         response.addCookie(cookie);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/logout")
+    ResponseEntity<Void> logout(@CookieValue("${session.cookie-name}") UUID sessionId,
+                                HttpServletResponse response) {
+
+        authenticationService.logout(sessionId);
+        Cookie cookie = clearCustomCookie(sessionCookieName);
+        response.addCookie(cookie);
+
+        return ResponseEntity.noContent().build();
+   }
+
+
+    @GetMapping("/test")
+    ResponseEntity<UserResponseDto> test() {
+        return ResponseEntity.ok(new UserResponseDto(22, "test"));
     }
 
 }

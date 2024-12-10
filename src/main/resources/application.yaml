@@ -18,8 +18,9 @@ spring:
       path: /weather/api
 
 session:
-  expires-after: 60
-  cookie:
-    name: USER_SESSION
-    max-age: 3600
+  minutes-before-expire: 120
+  cookie-name: USER_SESSION
+  urls-without-authorization: /weather/api/auth/login,
+    /weather/api/auth/registration
+
 

@@ -6,8 +6,9 @@ import org.mrshoffen.weather.dto.UserLoginDto;
 import org.mrshoffen.weather.dto.UserRegistrationDto;
 import org.mrshoffen.weather.dto.UserResponseDto;
 import org.mrshoffen.weather.entity.User;
-import org.mrshoffen.weather.exception.IncorrectPasswordException;
-import org.mrshoffen.weather.exception.UserAlreadyExistsException;
+import org.mrshoffen.weather.entity.UserSession;
+import org.mrshoffen.weather.exception.authentication.IncorrectPasswordException;
+import org.mrshoffen.weather.exception.authentication.UserAlreadyExistsException;
 import org.mrshoffen.weather.exception.UserNotFoundException;
 import org.mrshoffen.weather.mapper.UserMapper;
 import org.mrshoffen.weather.repository.UserRepository;
@@ -52,6 +53,12 @@ public class AuthenticationService {
         }
 
         return sessionService.createSession(user).getId();
+    }
+
+    @Transactional
+    public void logout(UUID sessionId) {
+        UserSession session = sessionService.getSessionById(sessionId);
+        sessionService.removeSession(session);
     }
 
 
