@@ -23,11 +23,11 @@ public class WeatherAppRestApiApplication {
 
         UserLoginDto zhuk = new UserLoginDto("zhuk", "1337");
 
-        UUID uuid = auth.login(zhuk);
+
 
         SessionService bean = config.getBean(SessionService.class);
 
-        bean.getSessionById(uuid);
+
 
 
         System.out.println();

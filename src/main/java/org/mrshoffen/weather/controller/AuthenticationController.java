@@ -2,23 +2,20 @@ package org.mrshoffen.weather.controller;
 
 
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.mrshoffen.weather.dto.UserLoginDto;
 import org.mrshoffen.weather.dto.UserRegistrationDto;
 import org.mrshoffen.weather.dto.UserResponseDto;
-import org.mrshoffen.weather.exception.authorization.UserUnauthorizedException;
 import org.mrshoffen.weather.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Function;
 
 import static org.mrshoffen.weather.util.CookieUtil.*;
 
@@ -45,15 +42,18 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    ResponseEntity<Void> login(@RequestBody UserLoginDto userLoginDto,
-                               HttpServletResponse response) {
+    ResponseEntity<UserResponseDto> login(@RequestBody UserLoginDto userLoginDto,
+                                          HttpServletResponse response) {
 
-        UUID uuid = authenticationService.login(userLoginDto);
+        Pair<UUID, UserResponseDto> userWithUuid = authenticationService.login(userLoginDto);
 
-        Cookie cookie = createCustomCookie(sessionCookieName, uuid.toString(), sessionCookieAge * 60);
+
+        Cookie cookie = createCustomCookie(sessionCookieName,
+                userWithUuid.getFirst().toString(),
+                sessionCookieAge * 60);
         response.addCookie(cookie);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(userWithUuid.getSecond());
     }
 
     @PostMapping("/logout")
@@ -65,7 +65,7 @@ public class AuthenticationController {
         response.addCookie(cookie);
 
         return ResponseEntity.noContent().build();
-   }
+    }
 
 
     @GetMapping("/test")

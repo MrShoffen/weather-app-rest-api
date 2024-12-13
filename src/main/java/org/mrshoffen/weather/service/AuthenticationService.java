@@ -12,6 +12,7 @@ import org.mrshoffen.weather.exception.authentication.UserAlreadyExistsException
 import org.mrshoffen.weather.exception.UserNotFoundException;
 import org.mrshoffen.weather.mapper.UserMapper;
 import org.mrshoffen.weather.repository.UserRepository;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,7 +44,7 @@ public class AuthenticationService {
         return userMapper.toResponseDto(user);
     }
 
-    public UUID login(UserLoginDto loginDto) {
+    public Pair<UUID, UserResponseDto> login(UserLoginDto loginDto) {
         User user = userRepository.findByUsername(loginDto.getUsername())
                 .orElseThrow(() -> new UserNotFoundException("User with username '%s' not found!"
                         .formatted(loginDto.getUsername())));
@@ -52,7 +53,7 @@ public class AuthenticationService {
             throw new IncorrectPasswordException("Invalid password!");
         }
 
-        return sessionService.createSession(user).getId();
+        return Pair.of(sessionService.createSession(user).getId(), userMapper.toResponseDto(user));
     }
 
     @Transactional

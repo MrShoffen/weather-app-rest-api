@@ -15,16 +15,9 @@ public interface SessionRepository extends JpaRepository<UserSession, String> {
 
 
     @Query("""
-            SELECT u FROM UserSession s
-            JOIN s.user u
-            WHERE s.id = :sessionId
-                        """)
-    Optional<User> findUserBySessionId(@Param("sessionId") UUID sessionId);
-
-    @Query("""
             SELECT s FROM UserSession s
             JOIN FETCH s.user u
             WHERE s.id = :sessionId
-                        """)
+            """)
     Optional<UserSession> findUserSessionById(@Param("sessionId") UUID sessionId);
 }

@@ -18,43 +18,42 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ProblemDetail> handleUserAlreadyExistException(UserAlreadyExistsException e) {
-            return getProblemDetailResponseEntity(HttpStatus.CONFLICT, e.getMessage());
+        return getProblemDetailResponseEntity(HttpStatus.CONFLICT, e);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ProblemDetail> handleUserNotFoundException(UserNotFoundException e) {
-        return getProblemDetailResponseEntity(HttpStatus.NOT_FOUND, e.getMessage());
+        return getProblemDetailResponseEntity(HttpStatus.NOT_FOUND, e);
     }
 
     @ExceptionHandler(IncorrectPasswordException.class)
     public ResponseEntity<ProblemDetail> handleIncorrectPasswordException(IncorrectPasswordException e) {
-        return getProblemDetailResponseEntity(HttpStatus.UNAUTHORIZED, e.getMessage());
+        return getProblemDetailResponseEntity(HttpStatus.UNAUTHORIZED, e);
     }
 
     @ExceptionHandler(UserUnauthorizedException.class)
     public ResponseEntity<ProblemDetail> handleUnauthorizedUserException(UserUnauthorizedException e) {
-        return getProblemDetailResponseEntity(HttpStatus.UNAUTHORIZED, e.getMessage());
+        return getProblemDetailResponseEntity(HttpStatus.UNAUTHORIZED, e);
     }
 
     @ExceptionHandler(SessionExpiredException.class)
     public ResponseEntity<ProblemDetail> handleSessionExpiredException(SessionExpiredException e) {
-        return getProblemDetailResponseEntity(HttpStatus.UNAUTHORIZED, e.getMessage());
+        return getProblemDetailResponseEntity(HttpStatus.UNAUTHORIZED, e);
     }
 
     @ExceptionHandler(UserAlreadyAuthorizedException.class)
     public ResponseEntity<ProblemDetail> handleUserAlreadyAuthorizedException(UserAlreadyAuthorizedException e) {
-        return getProblemDetailResponseEntity(HttpStatus.FORBIDDEN, e.getMessage());
+        return getProblemDetailResponseEntity(HttpStatus.FORBIDDEN, e);
 
     }
 
-    private static ResponseEntity<ProblemDetail> getProblemDetailResponseEntity(HttpStatus status, String errorMessage) {
-        var problemDetail = ProblemDetail.forStatusAndDetail(status, errorMessage);
-
+    private static ResponseEntity<ProblemDetail> getProblemDetailResponseEntity(HttpStatus status, Exception e) {
+        var problemDetail = ProblemDetail.forStatusAndDetail(status, e.getMessage());
+        problemDetail.setTitle(e.getClass().getSimpleName());
         return ResponseEntity
                 .status(status)
                 .body(problemDetail);
     }
-
 
 
 }
