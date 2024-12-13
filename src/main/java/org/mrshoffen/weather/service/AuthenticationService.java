@@ -53,6 +53,7 @@ public class AuthenticationService {
             throw new IncorrectPasswordException("Invalid password!");
         }
 
+        //TODO create separate dto for session entity
         return Pair.of(sessionService.createSession(user).getId(), userMapper.toResponseDto(user));
     }
 
