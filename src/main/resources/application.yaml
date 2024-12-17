@@ -29,10 +29,9 @@ app:
       /weather/api/auth/registration
     always-allowed: /weather/api/images
 
-
   upload:
     image:
-      dir: ./resources/images
+      directory: ./resources/images
       allowed-formats: .png , .jpg , .jpeg
 
 

@@ -24,7 +24,7 @@ import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 public class ImageService {
 
 
-    @Value("${app.upload.image.dir}")
+    @Value("${app.upload.image.directory}")
     private String imageDir;
 
     @Value("${app.upload.image.allowed-formats}")

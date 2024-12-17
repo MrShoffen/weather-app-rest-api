@@ -1,6 +1,5 @@
 package org.mrshoffen.weather.repository;
 
-import org.mrshoffen.weather.entity.User;
 import org.mrshoffen.weather.entity.UserSession;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

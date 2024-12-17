@@ -11,4 +11,5 @@ public class UserResponseDto {
 
     Integer id;
     String username;
+    String avatarUrl;
 }

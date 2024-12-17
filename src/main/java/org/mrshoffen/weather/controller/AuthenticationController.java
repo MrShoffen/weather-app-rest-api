@@ -32,8 +32,8 @@ public class AuthenticationController {
     @Value("${app.session.cookie-name}")
     private String sessionCookieName;
 
-    @PostMapping(value = "/registration", consumes = {"multipart/form-data"})
-    ResponseEntity<UserResponseDto> register(@ModelAttribute  UserRegistrationDto userRegistrationDto) throws URISyntaxException {
+    @PostMapping(value = "/registration")
+    ResponseEntity<UserResponseDto> register(@RequestBody  UserRegistrationDto userRegistrationDto) throws URISyntaxException {
         UserResponseDto register = authenticationService.register(userRegistrationDto);
 
         return ResponseEntity
@@ -46,8 +46,6 @@ public class AuthenticationController {
                                           HttpServletResponse response) {
 
         Pair<UUID, UserResponseDto> userWithUuid = authenticationService.login(userLoginDto);
-
-
         Cookie cookie = createCustomCookie(sessionCookieName,
                 userWithUuid.getFirst().toString(),
                 sessionCookieAge * 60);
@@ -68,9 +66,6 @@ public class AuthenticationController {
     }
 
 
-    @GetMapping("/test")
-    ResponseEntity<UserResponseDto> test() {
-        return ResponseEntity.ok(new UserResponseDto(22, "test"));
-    }
+
 
 }
