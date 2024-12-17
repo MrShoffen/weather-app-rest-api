@@ -4,7 +4,6 @@ spring:
     username: postgres
     password: 1337
     driver-class-name: org.postgresql.Driver
-
   jpa:
     open-in-view: false
     properties.hibernate:
@@ -12,15 +11,26 @@ spring:
       format_sql: true
       hbm2ddl.auto: validate
       default_schema: weather
-
   mvc:
     servlet:
       path: /weather/api
+  servlet:
+    multipart:
+      max-file-size: 5MB
 
-session:
-  minutes-before-expire: 120
-  cookie-name: USER_SESSION
-  urls-without-authorization: /weather/api/auth/login,
-    /weather/api/auth/registration
+
+app:
+  session:
+    minutes-before-expire: 120
+    cookie-name: USER_SESSION
+    urls-without-authorization: /weather/api/auth/login,
+      /weather/api/auth/registration
+    urls-always-allowed: /weather/api/images
+
+  resources:
+    upload:
+      image-dir: ./resources/images
+
+
 
 

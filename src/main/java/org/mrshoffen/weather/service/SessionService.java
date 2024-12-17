@@ -17,7 +17,7 @@ import java.util.UUID;
 public class SessionService {
 
     @Getter
-    @Value("${session.minutes-before-expire}")
+    @Value("${app.session.minutes-before-expire}")
     private int minutesForExpiration;
 
     private final SessionRepository sessionRepository;

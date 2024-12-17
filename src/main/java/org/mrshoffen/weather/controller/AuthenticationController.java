@@ -26,14 +26,14 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    @Value("${session.minutes-before-expire}")
+    @Value("${app.session.minutes-before-expire}")
     private int sessionCookieAge;
 
-    @Value("${session.cookie-name}")
+    @Value("${app.session.cookie-name}")
     private String sessionCookieName;
 
-    @PostMapping("/registration")
-    ResponseEntity<UserResponseDto> register(@RequestBody UserRegistrationDto userRegistrationDto) throws URISyntaxException {
+    @PostMapping(value = "/registration", consumes = {"multipart/form-data"})
+    ResponseEntity<UserResponseDto> register(@ModelAttribute  UserRegistrationDto userRegistrationDto) throws URISyntaxException {
         UserResponseDto register = authenticationService.register(userRegistrationDto);
 
         return ResponseEntity
@@ -57,7 +57,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/logout")
-    ResponseEntity<Void> logout(@CookieValue("${session.cookie-name}") UUID sessionId,
+    ResponseEntity<Void> logout(@CookieValue("${app.session.cookie-name}") UUID sessionId,
                                 HttpServletResponse response) {
 
         authenticationService.logout(sessionId);

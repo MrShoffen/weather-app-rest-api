@@ -17,7 +17,7 @@ public class WeatherAppRestApiApplication {
         ConfigurableApplicationContext config = SpringApplication.run(WeatherAppRestApiApplication.class, args);
         var auth = config.getBean(AuthenticationService.class);
 
-        UserRegistrationDto dto = new UserRegistrationDto("zhuk", "1337");
+//        UserRegistrationDto dto = new UserRegistrationDto("zhuk", "1337");
 
 //        auth.register(dto);
 
@@ -27,7 +27,7 @@ public class WeatherAppRestApiApplication {
 
         SessionService bean = config.getBean(SessionService.class);
 
-
+//        bean.getSessionById(uuid);
 
 
         System.out.println();

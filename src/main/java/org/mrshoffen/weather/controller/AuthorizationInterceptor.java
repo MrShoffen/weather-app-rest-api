@@ -23,11 +23,14 @@ import static org.mrshoffen.weather.util.CookieUtil.*;
 @RequiredArgsConstructor
 public class AuthorizationInterceptor implements HandlerInterceptor {
 
-    @Value("${session.urls-without-authorization}")
+    @Value("${app.session.urls-without-authorization}")
     private List<String> allowedUrlsWithoutAuth;
 
+    @Value("${app.session.urls-always-allowed}")
+    private List<String> alwaysAllowedUrls;
 
-    @Value("${session.cookie-name}")
+
+    @Value("${app.session.cookie-name}")
     private String sessionCookieName;
 
     private final SessionService sessionService;
@@ -39,6 +42,10 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestURI = request.getRequestURI();
 
+        if (isPathAlwaysAllowed(requestURI)) {
+            return true;
+        }
+
         Optional<UserSession> userSessionOpt = getCookieByName(request.getCookies(), sessionCookieName)
                 .map(cookie -> UUID.fromString(cookie.getValue()))
                 .map(sessionService::getSessionById);
@@ -49,13 +56,22 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     }
 
+    private boolean isPathAlwaysAllowed(String requestURI) {
+        for (String url : alwaysAllowedUrls) {
+            if (requestURI.startsWith(url)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private boolean handleAuthorizedUser(UserSession userSession, HttpServletRequest request, String requestURI) {
         if (userSession.isExpired()) {
             sessionService.removeSession(userSession);
             throw new SessionExpiredException("Your session has expired! Please login again.");
         }
 
-        if (isAuthPath(requestURI)) {
+        if (isPathAllowedForAuthUsers(requestURI)) {
             throw new UserAlreadyAuthorizedException("You are already authorized!");
         }
 
@@ -64,14 +80,14 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
     }
 
     private boolean handleUnauthorizedUser(String requestURI) {
-        if (!isAuthPath(requestURI)) {
+        if (!isPathAllowedForAuthUsers(requestURI)) {
             throw new UserUnauthorizedException("Permission denied! Only for authorized users!");
         }
 
         return true;
     }
 
-    private boolean isAuthPath(String requestURI) {
+    private boolean isPathAllowedForAuthUsers(String requestURI) {
         return allowedUrlsWithoutAuth.contains(requestURI);
     }
 }
