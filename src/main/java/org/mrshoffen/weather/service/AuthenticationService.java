@@ -2,11 +2,11 @@ package org.mrshoffen.weather.service;
 
 
 import lombok.RequiredArgsConstructor;
-import org.mrshoffen.weather.dto.UserLoginDto;
-import org.mrshoffen.weather.dto.UserRegistrationDto;
-import org.mrshoffen.weather.dto.UserResponseDto;
-import org.mrshoffen.weather.entity.User;
-import org.mrshoffen.weather.entity.UserSession;
+import org.mrshoffen.weather.model.dto.in.UserLoginDto;
+import org.mrshoffen.weather.model.dto.in.UserRegistrationDto;
+import org.mrshoffen.weather.model.dto.out.UserResponseDto;
+import org.mrshoffen.weather.model.entity.User;
+import org.mrshoffen.weather.model.entity.UserSession;
 import org.mrshoffen.weather.exception.authentication.IncorrectPasswordException;
 import org.mrshoffen.weather.exception.UserAlreadyExistsException;
 import org.mrshoffen.weather.exception.authentication.UserNotFoundException;

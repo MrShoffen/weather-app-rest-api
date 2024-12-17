@@ -3,9 +3,9 @@ package org.mrshoffen.weather.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mrshoffen.weather.dto.UserRegistrationDto;
-import org.mrshoffen.weather.dto.UserResponseDto;
-import org.mrshoffen.weather.entity.User;
+import org.mrshoffen.weather.model.dto.in.UserRegistrationDto;
+import org.mrshoffen.weather.model.dto.out.UserResponseDto;
+import org.mrshoffen.weather.model.entity.User;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {

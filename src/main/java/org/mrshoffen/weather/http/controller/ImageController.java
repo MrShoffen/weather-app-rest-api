@@ -1,9 +1,7 @@
-package org.mrshoffen.weather.controller;
+package org.mrshoffen.weather.http.controller;
 
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.mrshoffen.weather.dto.UserResponseDto;
 import org.mrshoffen.weather.service.ImageService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 

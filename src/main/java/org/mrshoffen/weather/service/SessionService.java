@@ -2,8 +2,8 @@ package org.mrshoffen.weather.service;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.mrshoffen.weather.entity.User;
-import org.mrshoffen.weather.entity.UserSession;
+import org.mrshoffen.weather.model.entity.User;
+import org.mrshoffen.weather.model.entity.UserSession;
 import org.mrshoffen.weather.mapper.UserMapper;
 import org.mrshoffen.weather.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Value;

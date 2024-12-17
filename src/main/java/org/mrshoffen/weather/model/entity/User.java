@@ -1,4 +1,4 @@
-package org.mrshoffen.weather.entity;
+package org.mrshoffen.weather.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

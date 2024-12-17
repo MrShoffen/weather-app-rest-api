@@ -1,12 +1,12 @@
-package org.mrshoffen.weather.controller;
+package org.mrshoffen.weather.http.controller;
 
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.mrshoffen.weather.dto.UserLoginDto;
-import org.mrshoffen.weather.dto.UserRegistrationDto;
-import org.mrshoffen.weather.dto.UserResponseDto;
+import org.mrshoffen.weather.model.dto.in.UserLoginDto;
+import org.mrshoffen.weather.model.dto.in.UserRegistrationDto;
+import org.mrshoffen.weather.model.dto.out.UserResponseDto;
 import org.mrshoffen.weather.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;

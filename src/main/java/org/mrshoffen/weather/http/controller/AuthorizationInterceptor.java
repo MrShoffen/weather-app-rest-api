@@ -1,9 +1,9 @@
-package org.mrshoffen.weather.controller;
+package org.mrshoffen.weather.http.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.mrshoffen.weather.entity.UserSession;
+import org.mrshoffen.weather.model.entity.UserSession;
 import org.mrshoffen.weather.exception.authorization.SessionExpiredException;
 import org.mrshoffen.weather.exception.authorization.UserAlreadyAuthorizedException;
 import org.mrshoffen.weather.exception.authorization.UserUnauthorizedException;

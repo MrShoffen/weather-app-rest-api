@@ -1,4 +1,4 @@
-package org.mrshoffen.weather.advice;
+package org.mrshoffen.weather.http.advice;
 
 
 import org.mrshoffen.weather.exception.image.ImageNotFoundException;
