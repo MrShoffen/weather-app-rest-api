@@ -23,13 +23,17 @@ app:
   session:
     minutes-before-expire: 120
     cookie-name: USER_SESSION
-    urls-without-authorization: /weather/api/auth/login,
-      /weather/api/auth/registration
-    urls-always-allowed: /weather/api/images
 
-  resources:
-    upload:
-      image-dir: ./resources/images
+  urls:
+    without-auth-allowed: /weather/api/auth/login,
+      /weather/api/auth/registration
+    always-allowed: /weather/api/images
+
+
+  upload:
+    image:
+      dir: ./resources/images
+      allowed-formats: .png , .jpg , .jpeg
 
 
 

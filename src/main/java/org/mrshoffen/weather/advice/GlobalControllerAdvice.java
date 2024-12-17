@@ -1,12 +1,14 @@
 package org.mrshoffen.weather.advice;
 
 
-import org.mrshoffen.weather.exception.*;
+import org.mrshoffen.weather.exception.image.ImageNotFoundException;
 import org.mrshoffen.weather.exception.authentication.IncorrectPasswordException;
-import org.mrshoffen.weather.exception.authentication.UserAlreadyExistsException;
+import org.mrshoffen.weather.exception.UserAlreadyExistsException;
+import org.mrshoffen.weather.exception.authentication.UserNotFoundException;
 import org.mrshoffen.weather.exception.authorization.SessionExpiredException;
 import org.mrshoffen.weather.exception.authorization.UserAlreadyAuthorizedException;
 import org.mrshoffen.weather.exception.authorization.UserUnauthorizedException;
+import org.mrshoffen.weather.exception.image.IncorrectImageFormatException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +47,16 @@ public class GlobalControllerAdvice {
     public ResponseEntity<ProblemDetail> handleUserAlreadyAuthorizedException(UserAlreadyAuthorizedException e) {
         return getProblemDetailResponseEntity(HttpStatus.FORBIDDEN, e);
 
+    }
+
+    @ExceptionHandler(ImageNotFoundException.class)
+    public ResponseEntity<ProblemDetail> handleImageNotFoundException(ImageNotFoundException e) {
+        return getProblemDetailResponseEntity(HttpStatus.NOT_FOUND, e);
+    }
+
+    @ExceptionHandler(IncorrectImageFormatException.class)
+    public ResponseEntity<ProblemDetail> handleIncorrectImageFormatException(IncorrectImageFormatException e) {
+        return getProblemDetailResponseEntity(HttpStatus.BAD_REQUEST, e);
     }
 
     private static ResponseEntity<ProblemDetail> getProblemDetailResponseEntity(HttpStatus status, Exception e) {

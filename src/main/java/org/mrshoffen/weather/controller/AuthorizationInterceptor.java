@@ -23,10 +23,10 @@ import static org.mrshoffen.weather.util.CookieUtil.*;
 @RequiredArgsConstructor
 public class AuthorizationInterceptor implements HandlerInterceptor {
 
-    @Value("${app.session.urls-without-authorization}")
+    @Value("${app.urls.without-auth-allowed}")
     private List<String> allowedUrlsWithoutAuth;
 
-    @Value("${app.session.urls-always-allowed}")
+    @Value("${app.urls.always-allowed}")
     private List<String> alwaysAllowedUrls;
 
 
