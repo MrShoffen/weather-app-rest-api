@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.mrshoffen.weather.model.dto.in.UserLoginDto;
 import org.mrshoffen.weather.model.dto.in.UserRegistrationDto;
+import org.mrshoffen.weather.model.dto.out.SessionResponseDto;
 import org.mrshoffen.weather.model.dto.out.UserResponseDto;
 import org.mrshoffen.weather.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +34,7 @@ public class AuthenticationController {
     private String sessionCookieName;
 
     @PostMapping(value = "/registration")
-    ResponseEntity<UserResponseDto> register(@RequestBody  UserRegistrationDto userRegistrationDto) throws URISyntaxException {
+    ResponseEntity<UserResponseDto> register(@RequestBody UserRegistrationDto userRegistrationDto) throws URISyntaxException {
         UserResponseDto register = authenticationService.register(userRegistrationDto);
 
         return ResponseEntity
@@ -45,13 +46,13 @@ public class AuthenticationController {
     ResponseEntity<UserResponseDto> login(@RequestBody UserLoginDto userLoginDto,
                                           HttpServletResponse response) {
 
-        Pair<UUID, UserResponseDto> userWithUuid = authenticationService.login(userLoginDto);
+        SessionResponseDto session = authenticationService.login(userLoginDto);
         Cookie cookie = createCustomCookie(sessionCookieName,
-                userWithUuid.getFirst().toString(),
+                session.getId().toString(),
                 sessionCookieAge * 60);
         response.addCookie(cookie);
 
-        return ResponseEntity.ok(userWithUuid.getSecond());
+        return ResponseEntity.ok(session.getUser());
     }
 
     @PostMapping("/logout")
@@ -64,8 +65,6 @@ public class AuthenticationController {
 
         return ResponseEntity.noContent().build();
     }
-
-
 
 
 }

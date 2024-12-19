@@ -1,4 +1,4 @@
-package org.mrshoffen.weather.http.controller;
+package org.mrshoffen.weather.http;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -2,9 +2,10 @@ package org.mrshoffen.weather.service;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.mrshoffen.weather.mapper.SessionMapper;
+import org.mrshoffen.weather.model.dto.out.SessionResponseDto;
 import org.mrshoffen.weather.model.entity.User;
 import org.mrshoffen.weather.model.entity.UserSession;
-import org.mrshoffen.weather.mapper.UserMapper;
 import org.mrshoffen.weather.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,17 +23,20 @@ public class SessionService {
 
     private final SessionRepository sessionRepository;
 
-    private final UserMapper userMapper;
+    private final SessionMapper sessionMapper;
 
-    public UserSession createSession(User user) {
+    public SessionResponseDto createSession(User user) {
         UserSession session = UserSession.builder()
                 .user(user)
                 .expiresAt(LocalDateTime.now().plusMinutes(minutesForExpiration))
                 .build();
 
-        return sessionRepository.save(session);
+        sessionRepository.save(session);
+
+        return sessionMapper.toResponseDto(session);
     }
 
+    //todo maybe return dto?
     public UserSession getSessionById(UUID sessionId) {
 
         //todo add exception

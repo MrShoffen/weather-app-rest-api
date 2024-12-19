@@ -4,6 +4,7 @@ package org.mrshoffen.weather.service;
 import lombok.RequiredArgsConstructor;
 import org.mrshoffen.weather.model.dto.in.UserLoginDto;
 import org.mrshoffen.weather.model.dto.in.UserRegistrationDto;
+import org.mrshoffen.weather.model.dto.out.SessionResponseDto;
 import org.mrshoffen.weather.model.dto.out.UserResponseDto;
 import org.mrshoffen.weather.model.entity.User;
 import org.mrshoffen.weather.model.entity.UserSession;
@@ -24,37 +25,27 @@ import static org.mrshoffen.weather.util.PasswordEncoder.*;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    private final UserRepository userRepository;
-
-    private final UserMapper userMapper;
+    private final UserService userService;
 
     private final SessionService sessionService;
 
     @Transactional
     public UserResponseDto register(UserRegistrationDto registrationDto) {
-        userRepository.findByUsername(registrationDto.getUsername())
-                .ifPresent(user -> {
-                    throw new UserAlreadyExistsException("User with username '%s' already exists!"
-                            .formatted(user.getUsername()));
-                });
-
         registrationDto.setPassword(hashPassword(registrationDto.getPassword()));
-        User user = userMapper.toEntity(registrationDto);
-        userRepository.save(user);
-        return userMapper.toResponseDto(user);
+
+        return userService.save(registrationDto);
     }
 
-    public Pair<UUID, UserResponseDto> login(UserLoginDto loginDto) {
-        User user = userRepository.findByUsername(loginDto.getUsername())
-                .orElseThrow(() -> new UserNotFoundException("User with username '%s' not found!"
-                        .formatted(loginDto.getUsername())));
+    @Transactional
+    public SessionResponseDto login(UserLoginDto loginDto) {
+        User user = userService.findByUsername(loginDto.getUsername());
 
         if (!arePasswordsEqual(loginDto.getPassword(), user.getPassword())) {
-            throw new IncorrectPasswordException("Invalid password!");
+            throw new IncorrectPasswordException("Incorrect password!");
         }
 
         //TODO create separate dto for session entity
-        return Pair.of(sessionService.createSession(user).getId(), userMapper.toResponseDto(user));
+        return sessionService.createSession(user);
     }
 
     @Transactional
