@@ -1,5 +1,6 @@
 package org.mrshoffen.weather.http;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +30,11 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
     @Value("${app.urls.always-allowed}")
     private List<String> alwaysAllowedUrls;
 
-
-    @Value("${app.session.cookie-name}")
+    @Value("${app.session.cookie.name}")
     private String sessionCookieName;
+
+    @Value("${app.session.authorized-user-attribute-name}")
+    private String authorizedUserAttributeName;
 
     private final SessionService sessionService;
 
@@ -51,7 +54,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
                 .map(sessionService::getSessionById);
 
         return userSessionOpt
-                .map(userSession -> handleAuthorizedUser(userSession, request, requestURI))
+                .map(userSession -> handleAuthorizedUser(userSession, request, response, requestURI))
                 .orElseGet(() -> handleUnauthorizedUser(requestURI));
 
     }
@@ -65,8 +68,10 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         return false;
     }
 
-    private boolean handleAuthorizedUser(UserSession userSession, HttpServletRequest request, String requestURI) {
+    private boolean handleAuthorizedUser(UserSession userSession, HttpServletRequest request, HttpServletResponse response, String requestURI) {
         if (userSession.isExpired()) {
+            Cookie cookie = clearCustomCookie(sessionCookieName);
+            response.addCookie(cookie);
             sessionService.removeSession(userSession);
             throw new SessionExpiredException("Your session has expired! Please login again.");
         }
@@ -75,7 +80,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             throw new UserAlreadyAuthorizedException("You are already authorized!");
         }
 
-        request.setAttribute("authorizedUser", userMapper.toResponseDto(userSession.getUser()));
+        request.setAttribute(authorizedUserAttributeName, userMapper.toResponseDto(userSession.getUser()));
         return true;
     }
 

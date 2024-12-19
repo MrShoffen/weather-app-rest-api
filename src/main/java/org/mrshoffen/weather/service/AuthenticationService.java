@@ -29,7 +29,6 @@ public class AuthenticationService {
 
     private final SessionService sessionService;
 
-    @Transactional
     public UserResponseDto register(UserRegistrationDto registrationDto) {
         registrationDto.setPassword(hashPassword(registrationDto.getPassword()));
 
@@ -38,13 +37,16 @@ public class AuthenticationService {
 
     @Transactional
     public SessionResponseDto login(UserLoginDto loginDto) {
-        User user = userService.findByUsername(loginDto.getUsername());
+        User user = userService.findByUsername(loginDto.getUsername())
+                .orElseThrow(() ->
+                        new UserNotFoundException("User with username '%s' not found!"
+                                .formatted(loginDto.getPassword()))
+                );
 
         if (!arePasswordsEqual(loginDto.getPassword(), user.getPassword())) {
             throw new IncorrectPasswordException("Incorrect password!");
         }
 
-        //TODO create separate dto for session entity
         return sessionService.createSession(user);
     }
 

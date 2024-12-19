@@ -27,10 +27,10 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    @Value("${app.session.minutes-before-expire}")
+    @Value("${app.session.cookie.max-age-hours}")
     private int sessionCookieAge;
 
-    @Value("${app.session.cookie-name}")
+    @Value("${app.session.cookie.name}")
     private String sessionCookieName;
 
     @PostMapping(value = "/registration")
@@ -49,7 +49,7 @@ public class AuthenticationController {
         SessionResponseDto session = authenticationService.login(userLoginDto);
         Cookie cookie = createCustomCookie(sessionCookieName,
                 session.getId().toString(),
-                sessionCookieAge * 60);
+                sessionCookieAge * 60 * 60);
         response.addCookie(cookie);
 
         return ResponseEntity.ok(session.getUser());
