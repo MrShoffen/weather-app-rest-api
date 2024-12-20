@@ -7,10 +7,7 @@ import org.mrshoffen.weather.model.dto.out.UserResponseDto;
 import org.mrshoffen.weather.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,4 +29,11 @@ public class UserController {
     public ResponseEntity<UserResponseDto> getCurrentUser(@ModelAttribute("currentUser") UserResponseDto authorizedUser) {
         return ResponseEntity.ok(authorizedUser);
     }
+
+    @PatchMapping
+    public ResponseEntity<UserResponseDto> updateCurrentUser(@ModelAttribute("currentUser") UserResponseDto authorizedUser) {
+
+        return null;
+    }
+
 }

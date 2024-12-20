@@ -43,9 +43,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String requestURI = request.getRequestURI();
-
-        if (isPathAlwaysAllowed(requestURI)) {
+        if (isPathAlwaysAllowed(request.getRequestURI())) {
             return true;
         }
 
@@ -54,9 +52,8 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
                 .map(sessionService::getSessionById);
 
         return userSessionOpt
-                .map(userSession -> handleAuthorizedUser(userSession, request, response, requestURI))
-                .orElseGet(() -> handleUnauthorizedUser(requestURI));
-
+                .map(userSession -> handleAuthorizedUser(userSession, request, response))
+                .orElseGet(() -> handleUnauthorizedUser(request));
     }
 
     private boolean isPathAlwaysAllowed(String requestURI) {
@@ -68,24 +65,26 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         return false;
     }
 
-    private boolean handleAuthorizedUser(UserSession userSession, HttpServletRequest request, HttpServletResponse response, String requestURI) {
+    private boolean handleAuthorizedUser(UserSession userSession, HttpServletRequest request, HttpServletResponse response) {
         if (userSession.isExpired()) {
             Cookie cookie = clearCustomCookie(sessionCookieName);
             response.addCookie(cookie);
+
             sessionService.removeSession(userSession);
             throw new SessionExpiredException("Your session has expired! Please login again.");
         }
 
-        if (isPathAllowedForAuthUsers(requestURI)) {
+        if (isPathAllowedForAuthUsers(request.getRequestURI())) {
             throw new UserAlreadyAuthorizedException("You are already authorized!");
         }
 
+        //todo maybe set full user entity? or just an id? or session?
         request.setAttribute(authorizedUserAttributeName, userMapper.toResponseDto(userSession.getUser()));
         return true;
     }
 
-    private boolean handleUnauthorizedUser(String requestURI) {
-        if (!isPathAllowedForAuthUsers(requestURI)) {
+    private boolean handleUnauthorizedUser(HttpServletRequest request) {
+        if (!isPathAllowedForAuthUsers(request.getRequestURI())) {
             throw new UserUnauthorizedException("Permission denied! Only for authorized users!");
         }
 

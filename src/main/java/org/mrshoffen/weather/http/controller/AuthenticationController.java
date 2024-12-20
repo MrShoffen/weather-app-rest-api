@@ -56,7 +56,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/logout")
-    ResponseEntity<Void> logout(@CookieValue("${app.session.cookie-name}") UUID sessionId,
+    ResponseEntity<Void> logout(@CookieValue("${app.session.cookie.name}") UUID sessionId,
                                 HttpServletResponse response) {
 
         authenticationService.logout(sessionId);
