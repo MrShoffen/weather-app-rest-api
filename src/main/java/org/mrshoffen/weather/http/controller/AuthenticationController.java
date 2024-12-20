@@ -33,12 +33,13 @@ public class AuthenticationController {
     @Value("${app.session.cookie.name}")
     private String sessionCookieName;
 
+    //todo  - handle case sensetive
     @PostMapping(value = "/registration")
     ResponseEntity<UserResponseDto> register(@RequestBody UserRegistrationDto userRegistrationDto) throws URISyntaxException {
         UserResponseDto register = authenticationService.register(userRegistrationDto);
 
         return ResponseEntity
-                .created(new URI("/weather/api/v1/users/" + register.getId()))
+                .created(new URI("/weather/api/v1/user"))
                 .body(register);
     }
 

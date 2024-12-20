@@ -1,4 +1,4 @@
-package org.mrshoffen.weather.http;
+package org.mrshoffen.weather.http.interceptor;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,26 +43,35 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (isPathAlwaysAllowed(request.getRequestURI())) {
+        if (isRequestAlwaysAllowed(request)) {
             return true;
         }
 
-        Optional<UserSession> userSessionOpt = getCookieByName(request.getCookies(), sessionCookieName)
-                .map(cookie -> UUID.fromString(cookie.getValue()))
-                .map(sessionService::getSessionById);
+        Optional<UserSession> userSessionOpt = getUserSessionFromCookie(request);
 
-        return userSessionOpt
-                .map(userSession -> handleAuthorizedUser(userSession, request, response))
-                .orElseGet(() -> handleUnauthorizedUser(request));
+        return isRequestAllowed(request, response, userSessionOpt);
     }
 
-    private boolean isPathAlwaysAllowed(String requestURI) {
+    private boolean isRequestAlwaysAllowed(HttpServletRequest request) {
         for (String url : alwaysAllowedUrls) {
-            if (requestURI.startsWith(url)) {
+            if (request.getRequestURI().startsWith(url)) {
                 return true;
             }
         }
-        return false;
+
+        return request.getMethod().equals("OPTIONS");
+    }
+
+    private Optional<UserSession> getUserSessionFromCookie(HttpServletRequest request) {
+        return getCookieByName(request.getCookies(), sessionCookieName)
+                .map(cookie -> UUID.fromString(cookie.getValue()))
+                .map(sessionService::getSessionById);
+    }
+
+    private Boolean isRequestAllowed(HttpServletRequest request, HttpServletResponse response, Optional<UserSession> userSessionOpt) {
+        return userSessionOpt
+                .map(userSession -> handleAuthorizedUser(userSession, request, response))
+                .orElseGet(() -> handleUnauthorizedUser(request));
     }
 
     private boolean handleAuthorizedUser(UserSession userSession, HttpServletRequest request, HttpServletResponse response) {

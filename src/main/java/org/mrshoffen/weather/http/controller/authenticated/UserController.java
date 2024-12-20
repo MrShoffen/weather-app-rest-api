@@ -3,6 +3,8 @@ package org.mrshoffen.weather.http.controller.authenticated;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.mrshoffen.weather.model.dto.in.UserEditPasswordDto;
+import org.mrshoffen.weather.model.dto.in.UserEditProfileDto;
 import org.mrshoffen.weather.model.dto.out.UserResponseDto;
 import org.mrshoffen.weather.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,10 +32,22 @@ public class UserController {
         return ResponseEntity.ok(authorizedUser);
     }
 
-    @PatchMapping
-    public ResponseEntity<UserResponseDto> updateCurrentUser(@ModelAttribute("currentUser") UserResponseDto authorizedUser) {
 
-        return null;
+    @PatchMapping("/profile")
+    public ResponseEntity<UserResponseDto> updateUserProfile(@ModelAttribute("currentUser") UserResponseDto authorizedUser,
+                                                             @RequestBody UserEditProfileDto userProfileEditDto) {
+
+        UserResponseDto updatedUser = userService.updateUserProfile(authorizedUser.getId(), userProfileEditDto);
+        return ResponseEntity.ok(updatedUser);
     }
+
+    @PatchMapping("/password")
+    public ResponseEntity<UserResponseDto> updateUserPassword(@ModelAttribute("currentUser") UserResponseDto authorizedUser,
+                                                              @RequestBody UserEditPasswordDto userEditPasswordDto) {
+
+        UserResponseDto updatedUser = userService.updateUserPassword(authorizedUser.getId(), userEditPasswordDto);
+        return ResponseEntity.ok(updatedUser);
+    }
+
 
 }

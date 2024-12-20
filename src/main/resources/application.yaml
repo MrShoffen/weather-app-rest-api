@@ -39,6 +39,9 @@ app:
       directory: ./resources/images
       allowed-formats: .png , .jpg , .jpeg
 
+logging:
+  level:
+    root: debug
 
 
 
