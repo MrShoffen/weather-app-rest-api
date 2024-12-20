@@ -27,6 +27,8 @@ public class UserService {
 
     private final UserMapper userMapper;
 
+    private final SessionService sessionService;
+
 
     @Transactional
     public UserResponseDto save(UserRegistrationDto registrationDto) {
@@ -86,4 +88,11 @@ public class UserService {
 
         return userMapper.toResponseDto(user);
     }
+
+    @Transactional
+    public void deleteUser(Integer userId) {
+        sessionService.removeAllUserSessions(userId);
+        userRepository.deleteById(userId);
+    }
+
 }

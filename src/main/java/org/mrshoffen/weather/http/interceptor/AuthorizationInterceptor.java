@@ -47,6 +47,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             return true;
         }
 
+
         Optional<UserSession> userSessionOpt = getUserSessionFromCookie(request);
 
         return isRequestAllowed(request, response, userSessionOpt);

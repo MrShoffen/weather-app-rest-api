@@ -1,6 +1,9 @@
 package org.mrshoffen.weather.http.advice;
 
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import org.mrshoffen.weather.exception.authorization.SessionNotFoundException;
 import org.mrshoffen.weather.exception.image.ImageNotFoundException;
 import org.mrshoffen.weather.exception.authentication.IncorrectPasswordException;
 import org.mrshoffen.weather.exception.UserAlreadyExistsException;
@@ -9,12 +12,15 @@ import org.mrshoffen.weather.exception.authorization.SessionExpiredException;
 import org.mrshoffen.weather.exception.authorization.UserAlreadyAuthorizedException;
 import org.mrshoffen.weather.exception.authorization.UserUnauthorizedException;
 import org.mrshoffen.weather.exception.image.IncorrectImageFormatException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+
+import static org.mrshoffen.weather.util.CookieUtil.clearCustomCookie;
 
 @RestControllerAdvice
 public class GlobalControllerAdvice {
@@ -64,6 +70,17 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<ProblemDetail> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
         return getProblemDetailResponseEntity(HttpStatus.PAYLOAD_TOO_LARGE, e);
+    }
+
+    @Value("${app.session.cookie.name}")
+    private String sessionCookieName;
+
+    @ExceptionHandler(SessionNotFoundException.class)
+    public ResponseEntity<ProblemDetail> handleSessionNotFoundException(SessionNotFoundException e, HttpServletResponse response) {
+        Cookie cookie = clearCustomCookie(sessionCookieName);
+        response.addCookie(cookie);
+
+        return getProblemDetailResponseEntity(HttpStatus.NOT_FOUND, e);
     }
 
     private static ResponseEntity<ProblemDetail> getProblemDetailResponseEntity(HttpStatus status, Exception e) {

@@ -2,6 +2,7 @@ package org.mrshoffen.weather.service;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.mrshoffen.weather.exception.authorization.SessionNotFoundException;
 import org.mrshoffen.weather.mapper.SessionMapper;
 import org.mrshoffen.weather.model.dto.out.SessionResponseDto;
 import org.mrshoffen.weather.model.entity.User;
@@ -9,6 +10,7 @@ import org.mrshoffen.weather.model.entity.UserSession;
 import org.mrshoffen.weather.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -41,11 +43,16 @@ public class SessionService {
 
         //todo add exception
         return sessionRepository.findUserSessionById(sessionId)
-                .orElseThrow();
+                .orElseThrow(() -> new SessionNotFoundException("Session with id " + sessionId + " not found"));
     }
 
     public void removeSession(UserSession session) {
         sessionRepository.delete(session);
+    }
+
+    @Transactional
+    public void removeAllUserSessions(Integer userId){
+        sessionRepository.deleteAllByUserId(userId);
     }
 
 }

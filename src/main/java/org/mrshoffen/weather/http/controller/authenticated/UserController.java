@@ -1,7 +1,9 @@
 package org.mrshoffen.weather.http.controller.authenticated;
 
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.mrshoffen.weather.model.dto.in.UserEditPasswordDto;
 import org.mrshoffen.weather.model.dto.in.UserEditProfileDto;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static org.mrshoffen.weather.util.CookieUtil.clearCustomCookie;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
@@ -18,6 +22,9 @@ public class UserController {
 
     @Value("${app.session.authorized-user-attribute-name}")
     private String authorizedUserAttributeName;
+
+    @Value("${app.session.cookie.name}")
+    private String sessionCookieName;
 
     private final UserService userService;
 
@@ -49,5 +56,14 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
+    @DeleteMapping
+    public ResponseEntity<Void> deleteUser(@ModelAttribute("currentUser") UserResponseDto authorizedUser, HttpServletResponse response) {
+        userService.deleteUser(authorizedUser.getId());
+
+        Cookie cookie = clearCustomCookie(sessionCookieName);
+        response.addCookie(cookie);
+
+        return ResponseEntity.noContent().build();
+    }
 
 }
