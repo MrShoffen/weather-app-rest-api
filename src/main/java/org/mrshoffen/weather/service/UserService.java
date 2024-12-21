@@ -93,6 +93,7 @@ public class UserService {
     public void deleteUser(Integer userId) {
         sessionService.removeAllUserSessions(userId);
         userRepository.deleteById(userId);
+        //todo remove image
     }
 
 }
