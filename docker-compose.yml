@@ -1,6 +1,7 @@
 services:
   app:
     container_name: weather-rest-api
+    image: weather-rest-api:1.0
     build:
       context: .
       dockerfile: Dockerfile
