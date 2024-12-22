@@ -21,6 +21,7 @@ import java.util.UUID;
 
 import static org.mrshoffen.weather.util.PasswordEncoder.*;
 
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -40,7 +41,7 @@ public class AuthenticationService {
         User user = userService.findByUsername(loginDto.getUsername())
                 .orElseThrow(() ->
                         new UserNotFoundException("User with username '%s' not found!"
-                                .formatted(loginDto.getPassword()))
+                                .formatted(loginDto.getUsername()))
                 );
 
         if (!arePasswordsEqual(loginDto.getPassword(), user.getPassword())) {
