@@ -23,7 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 //todo move to prop
-                .allowedOrigins("http://localhost:5174", "http://192.168.0.190:5174", "http://192.168.0.125:80")
+                .allowedOrigins("http://localhost:5173", "http://192.168.0.190:5173", "http://192.168.0.125:80")
                 .allowedMethods("GET", "POST", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
