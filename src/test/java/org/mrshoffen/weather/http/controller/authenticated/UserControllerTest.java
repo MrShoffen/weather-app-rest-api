@@ -82,7 +82,7 @@ class UserControllerTest {
     }
 
     @Test
-    void updateUserProfile_UserAttributeIsPresent_ReturnsChangedResponseEntity() {
+    void updateUserProfileTest() {
         //given
         UserEditProfileDto userEditProfileDto = new UserEditProfileDto("test2", "test_url_2");
         UserResponseDto updatedMockUser = new UserResponseDto(1, "test2", "test_ur_2");
@@ -103,7 +103,7 @@ class UserControllerTest {
     }
 
     @Test
-    void updateUserPassword() {
+    void updateUserPasswordTest() {
         //given
         UserEditPasswordDto userEditPasswordDto = new UserEditPasswordDto("old_pass", "new_pass");
 
@@ -123,7 +123,7 @@ class UserControllerTest {
     }
 
     @Test
-    void deleteUser() {
+    void deleteUserTest() {
         ResponseEntity<Void> voidResponseEntity = userController.deleteUser(mockUser, httpServletResponse);
 
         assertThat(voidResponseEntity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);

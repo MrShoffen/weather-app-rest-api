@@ -38,7 +38,7 @@ app:
     image:
       directory: ./resources/images
       allowed-formats: .png , .jpg , .jpeg
-      env: ${JAVA_HOME}
+      base-url: /weather/api/images/
 
 logging:
   level:

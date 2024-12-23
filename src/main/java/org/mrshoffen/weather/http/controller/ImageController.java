@@ -3,6 +3,7 @@ package org.mrshoffen.weather.http.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.mrshoffen.weather.service.ImageService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +18,15 @@ import java.util.Map;
 @RequestMapping("/images")
 public class ImageController {
 
+    @Value("${app.upload.image.base-url}")
+    private String baseImagePath;
+
     private final ImageService imageService;
 
     @PostMapping(consumes = {"multipart/form-data"})
     ResponseEntity<Map<String, String>> uploadImage(@RequestParam("avatar") MultipartFile avatar) {
         String imageName = imageService.upload(avatar);
-        URI location = URI.create("/weather/api/images/" + imageName);
+        URI location = URI.create(baseImagePath + imageName);
 
         Map<String, String> map = new HashMap<>();
         map.put("imageUrl", location.toString());
