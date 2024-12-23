@@ -1,0 +1,48 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      max-lifetime: 250000
+  jpa:
+    open-in-view: false
+    properties.hibernate:
+      show_sql: true
+      format_sql: true
+      hbm2ddl.auto: validate
+      default_schema: weather
+  mvc:
+    servlet:
+      path: /weather/api
+  servlet:
+    multipart:
+      max-file-size: 5MB
+
+
+app:
+  session:
+    minutes-before-expire: 120
+    authorized-user-attribute-name: authorizedUser
+    cookie:
+      name: CUSTOM_SESSION
+      max-age-hours: 200
+
+  urls:
+    without-auth-allowed: /weather/api/auth/login,
+      /weather/api/auth/registration
+    always-allowed: /weather/api/images
+
+  upload:
+    image:
+      directory: ./resources/images
+      allowed-formats: .png , .jpg , .jpeg
+      env: ${JAVA_HOME}
+
+logging:
+  level:
+    root: debug
+
+
+

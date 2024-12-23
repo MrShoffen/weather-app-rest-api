@@ -11,7 +11,6 @@ import org.mrshoffen.weather.model.dto.in.UserRegistrationDto;
 import org.mrshoffen.weather.model.dto.out.UserResponseDto;
 import org.mrshoffen.weather.model.entity.User;
 import org.mrshoffen.weather.repository.UserRepository;
-import org.mrshoffen.weather.util.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +39,7 @@ public class UserService {
     }
 
     public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userRepository.findByUsernameIgnoreCase(username);
     }
 
     @Transactional
@@ -63,7 +62,7 @@ public class UserService {
     }
 
     private void checkForOccupiedUsername(String username) {
-        userRepository.findByUsername(username)
+        userRepository.findByUsernameIgnoreCase(username)
                 .ifPresent(u -> {
                     throw new UserAlreadyExistsException("User with username '%s' already exists!"
                             .formatted(u.getUsername()));
