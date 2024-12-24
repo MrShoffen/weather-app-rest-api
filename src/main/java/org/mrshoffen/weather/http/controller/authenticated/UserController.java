@@ -4,6 +4,7 @@ package org.mrshoffen.weather.http.controller.authenticated;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.mrshoffen.weather.model.dto.in.UserEditPasswordDto;
 import org.mrshoffen.weather.model.dto.in.UserEditProfileDto;
@@ -17,7 +18,7 @@ import static org.mrshoffen.weather.util.CookieUtil.clearCustomCookie;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/weather/api/user")
 public class UserController {
 
     @Value("${app.session.authorized-user-attribute-name}")
@@ -42,7 +43,7 @@ public class UserController {
 
     @PatchMapping("/profile")
     public ResponseEntity<UserResponseDto> updateUserProfile(@ModelAttribute("currentUser") UserResponseDto authorizedUser,
-                                                             @RequestBody UserEditProfileDto userProfileEditDto) {
+                                                             @Valid @RequestBody UserEditProfileDto userProfileEditDto) {
 
         UserResponseDto updatedUser = userService.updateUserProfile(authorizedUser.getId(), userProfileEditDto);
         return ResponseEntity.ok(updatedUser);
@@ -50,7 +51,7 @@ public class UserController {
 
     @PatchMapping("/password")
     public ResponseEntity<UserResponseDto> updateUserPassword(@ModelAttribute("currentUser") UserResponseDto authorizedUser,
-                                                              @RequestBody UserEditPasswordDto userEditPasswordDto) {
+                                                              @Valid @RequestBody UserEditPasswordDto userEditPasswordDto) {
 
         UserResponseDto updatedUser = userService.updateUserPassword(authorizedUser.getId(), userEditPasswordDto);
         return ResponseEntity.ok(updatedUser);

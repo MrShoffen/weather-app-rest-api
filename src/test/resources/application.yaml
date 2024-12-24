@@ -1,9 +1,7 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
-    driver-class-name: org.postgresql.Driver
+    url: 'jdbc:h2:mem:'
+    driver-class-name: org.h2.Driver
     hikari:
       max-lifetime: 250000
   jpa:
@@ -13,9 +11,7 @@ spring:
       format_sql: true
       hbm2ddl.auto: validate
       default_schema: weather
-  mvc:
-    servlet:
-      path: /weather/api
+
   servlet:
     multipart:
       max-file-size: 5MB
@@ -38,11 +34,9 @@ app:
     image:
       directory: ./resources/images
       allowed-formats: .png , .jpg , .jpeg
-      env: ${JAVA_HOME}
+      base-url: /weather/api/images/
 
-logging:
-  level:
-    root: debug
+
 
 
 

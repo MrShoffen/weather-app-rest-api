@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/images")
+@RequestMapping("/weather/api/images")
 public class ImageController {
 
     @Value("${app.upload.image.base-url}")

@@ -1,7 +1,7 @@
 package org.mrshoffen.weather.service;
 
 import lombok.RequiredArgsConstructor;
-import org.mrshoffen.weather.exception.UserAlreadyExistsException;
+import org.mrshoffen.weather.exception.authentication.UserAlreadyExistsException;
 import org.mrshoffen.weather.exception.authentication.IncorrectPasswordException;
 import org.mrshoffen.weather.exception.authentication.UserNotFoundException;
 import org.mrshoffen.weather.mapper.UserMapper;
@@ -61,14 +61,6 @@ public class UserService {
         return userMapper.toResponseDto(user);
     }
 
-    private void checkForOccupiedUsername(String username) {
-        userRepository.findByUsernameIgnoreCase(username)
-                .ifPresent(u -> {
-                    throw new UserAlreadyExistsException("User with username '%s' already exists!"
-                            .formatted(u.getUsername()));
-                });
-    }
-
 
     @Transactional
     public UserResponseDto updateUserPassword(Integer userId, UserEditPasswordDto userEditPasswordDto) {
@@ -93,6 +85,14 @@ public class UserService {
         sessionService.removeAllUserSessions(userId);
         userRepository.deleteById(userId);
         //todo remove image
+    }
+
+    private void checkForOccupiedUsername(String username) {
+        userRepository.findByUsernameIgnoreCase(username)
+                .ifPresent(u -> {
+                    throw new UserAlreadyExistsException("User with username '%s' already exists!"
+                            .formatted(u.getUsername()));
+                });
     }
 
 }

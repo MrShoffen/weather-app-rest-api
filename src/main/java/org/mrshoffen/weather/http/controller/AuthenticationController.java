@@ -3,6 +3,7 @@ package org.mrshoffen.weather.http.controller;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.mrshoffen.weather.model.dto.in.UserLoginDto;
 import org.mrshoffen.weather.model.dto.in.UserRegistrationDto;
@@ -12,6 +13,7 @@ import org.mrshoffen.weather.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -22,7 +24,7 @@ import static org.mrshoffen.weather.util.CookieUtil.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("/weather/api/auth")
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
@@ -33,10 +35,10 @@ public class AuthenticationController {
     @Value("${app.session.cookie.name}")
     private String sessionCookieName;
 
-    //todo  - handle case sensetive
     @PostMapping(value = "/registration")
-    ResponseEntity<UserResponseDto> register(@RequestBody UserRegistrationDto userRegistrationDto) throws URISyntaxException {
+    ResponseEntity<UserResponseDto> register(@Valid @RequestBody UserRegistrationDto userRegistrationDto) throws URISyntaxException {
         UserResponseDto register = authenticationService.register(userRegistrationDto);
+
 
         return ResponseEntity
                 .created(new URI("/weather/api/v1/user"))
@@ -44,7 +46,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    ResponseEntity<UserResponseDto> login(@RequestBody UserLoginDto userLoginDto,
+    ResponseEntity<UserResponseDto> login(@Valid @RequestBody UserLoginDto userLoginDto,
                                           HttpServletResponse response) {
 
         SessionResponseDto session = authenticationService.login(userLoginDto);

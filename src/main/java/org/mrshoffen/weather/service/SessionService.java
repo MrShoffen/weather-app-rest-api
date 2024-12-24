@@ -40,8 +40,6 @@ public class SessionService {
 
     //todo maybe return dto?
     public UserSession getSessionById(UUID sessionId) {
-
-        //todo add exception
         return sessionRepository.findUserSessionById(sessionId)
                 .orElseThrow(() -> new SessionNotFoundException("Session with id " + sessionId + " not found"));
     }

@@ -9,11 +9,7 @@ import org.mrshoffen.weather.model.dto.out.UserResponseDto;
 import org.mrshoffen.weather.model.entity.User;
 import org.mrshoffen.weather.model.entity.UserSession;
 import org.mrshoffen.weather.exception.authentication.IncorrectPasswordException;
-import org.mrshoffen.weather.exception.UserAlreadyExistsException;
 import org.mrshoffen.weather.exception.authentication.UserNotFoundException;
-import org.mrshoffen.weather.mapper.UserMapper;
-import org.mrshoffen.weather.repository.UserRepository;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

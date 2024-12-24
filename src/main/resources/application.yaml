@@ -13,9 +13,7 @@ spring:
       format_sql: true
       hbm2ddl.auto: validate
       default_schema: weather
-  mvc:
-    servlet:
-      path: /weather/api
+
   servlet:
     multipart:
       max-file-size: 5MB
@@ -39,10 +37,6 @@ app:
       directory: ./resources/images
       allowed-formats: .png , .jpg , .jpeg
       base-url: /weather/api/images/
-
-logging:
-  level:
-    root: debug
 
 
 

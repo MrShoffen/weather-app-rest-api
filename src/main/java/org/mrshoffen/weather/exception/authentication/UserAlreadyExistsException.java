@@ -1,4 +1,4 @@
-package org.mrshoffen.weather.exception;
+package org.mrshoffen.weather.exception.authentication;
 
 public class UserAlreadyExistsException extends RuntimeException {
 
