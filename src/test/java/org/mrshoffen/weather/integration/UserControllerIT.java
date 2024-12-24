@@ -2,9 +2,10 @@ package org.mrshoffen.weather.integration;
 
 import jakarta.servlet.http.Cookie;
 import org.hamcrest.Matchers;
-import org.hibernate.validator.internal.constraintvalidators.hv.Mod11CheckValidator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.mrshoffen.weather.model.entity.UserSession;
+import org.mrshoffen.weather.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,29 +13,30 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.mrshoffen.weather.integration.IntegrationTestUtil.*;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import static org.mrshoffen.weather.integration.IntegrationTestUtil.loginUser;
+import static org.mrshoffen.weather.integration.IntegrationTestUtil.registerUser;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Transactional
 @AutoConfigureMockMvc
 @SpringBootTest
-public class UserControllerIT {
+class UserControllerIT {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    SessionRepository sessionRepository;
 
     @Value("${app.session.cookie.name}")
     private String sessionCookieName;
@@ -46,13 +48,59 @@ public class UserControllerIT {
                 registerUser(username, password, avatarUrl)
         );
         cookie = mockMvc.perform(
-                loginUser(username, password)
-        ).andReturn().getResponse().getCookie(sessionCookieName);
+                        loginUser(username, password)
+                )
+                .andReturn()
+                .getResponse()
+                .getCookie(sessionCookieName);
     }
 
     @AfterEach
     void resetAutoIncrement() {
         jdbcTemplate.execute("ALTER TABLE weather.users ALTER COLUMN id RESTART WITH 1;");
+    }
+
+    @Test
+    void anyMethod_UserUnauthorized_ReturnProblemDetail() throws Exception {
+        //when
+        mockMvc.perform(get("/weather/api/user"))
+                //then
+                .andDo(print())
+                .andExpectAll(
+                        status().isUnauthorized(),
+                        content().contentTypeCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON),
+                        content().json("""
+                                {"title":"UserUnauthorizedException","status":401,"detail":"Permission denied! Only for authorized users!"}
+                                """)
+                );
+    }
+
+    @Test
+    void anyMethod_SessionExpired_ReturnProblemDetail() throws Exception {
+        //given
+        registerAndLoginToAccount("username", "password", "url");
+
+        UserSession userSession = sessionRepository
+                .findUserSessionById(UUID.fromString(cookie.getValue()))
+                .orElseThrow(() -> new RuntimeException("Session not found"));
+
+        //imitate that session is expired
+        userSession.setExpiresAt(LocalDateTime.now().minusMinutes(10));
+        sessionRepository.save(userSession);
+
+        //when
+        mockMvc.perform(get("/weather/api/user").cookie(cookie))
+                //then
+                .andDo(print())
+                .andExpectAll(
+                        status().isUnauthorized(),
+                        content().contentTypeCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON),
+                        content().json("""
+                                {"title":"SessionExpiredException","status":401,"detail":"Your session has expired! Please login again."}
+                                """),
+                        cookie().value(sessionCookieName,Matchers.nullValue())
+
+                );
     }
 
     @Test
@@ -69,21 +117,6 @@ public class UserControllerIT {
                         content().contentType(MediaType.APPLICATION_JSON),
                         content().json("""
                                 {"id":1,"username":"username","avatarUrl":"url"}
-                                """)
-                );
-    }
-
-    @Test
-    void anyMethod_UserUnauthorized_ReturnProblemDetail() throws Exception {
-        //when
-        mockMvc.perform(get("/weather/api/user"))
-                //then
-                .andDo(print())
-                .andExpectAll(
-                        status().isUnauthorized(),
-                        content().contentTypeCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON),
-                        content().json("""
-                                {"title":"UserUnauthorizedException","status":401,"detail":"Permission denied! Only for authorized users!"}
                                 """)
                 );
     }
