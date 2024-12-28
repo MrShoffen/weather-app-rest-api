@@ -2,10 +2,12 @@ package org.mrshoffen.weather.integration;
 
 import jakarta.servlet.http.Cookie;
 import org.hamcrest.Matchers;
+import org.hibernate.validator.internal.constraintvalidators.hv.Mod11CheckValidator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.mrshoffen.weather.model.entity.UserSession;
 import org.mrshoffen.weather.repository.SessionRepository;
+import org.mrshoffen.weather.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -42,6 +44,7 @@ class UserControllerIT {
     private String sessionCookieName;
 
     Cookie cookie;
+
 
     void registerAndLoginToAccount(String username, String password, String avatarUrl) throws Exception {
         mockMvc.perform(
@@ -98,8 +101,26 @@ class UserControllerIT {
                         content().json("""
                                 {"title":"SessionExpiredException","status":401,"detail":"Your session has expired! Please login again."}
                                 """),
-                        cookie().value(sessionCookieName,Matchers.nullValue())
+                        cookie().value(sessionCookieName, Matchers.nullValue())
 
+                );
+    }
+
+    @Test
+    void anyMethod_SessionCookieSpoofing_AccessDeniedReturnProblemDetail() throws Exception {
+        //given
+        Cookie spoofCookie = CookieUtil.createCustomCookie(sessionCookieName, UUID.randomUUID().toString(), 200);
+
+        //when
+        mockMvc.perform(get("/weather/api/user").cookie(spoofCookie))
+                //then
+                .andDo(print())
+                .andExpectAll(
+                        status().isNotFound(),
+                        content().contentTypeCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON),
+                        content().json("""
+                                {"title":"SessionNotFoundException","status":404}
+                                """)
                 );
     }
 
