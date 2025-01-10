@@ -27,8 +27,6 @@ public class AuthenticationService {
     private final SessionService sessionService;
 
     public UserResponseDto register(UserRegistrationDto registrationDto) {
-        registrationDto.setPassword(hashPassword(registrationDto.getPassword()));
-
         return userService.save(registrationDto);
     }
 
