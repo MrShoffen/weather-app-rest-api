@@ -4,6 +4,6 @@
 CREATE TABLE IF NOT EXISTS weather.sessions
 (
     id         UUID PRIMARY KEY,
-    user_id    INT NOT NULL REFERENCES weather.users,
-    expires_at TIMESTAMP  NOT NULL
+    user_id    INT       NOT NULL REFERENCES weather.users ON DELETE CASCADE,
+    expires_at TIMESTAMP NOT NULL
 );

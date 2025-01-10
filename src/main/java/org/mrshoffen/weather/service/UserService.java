@@ -82,7 +82,6 @@ public class UserService {
 
     @Transactional
     public void deleteUser(Integer userId) {
-        sessionService.removeAllUserSessions(userId);
         userRepository.deleteById(userId);
         //todo remove image
     }

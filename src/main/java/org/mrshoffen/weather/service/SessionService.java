@@ -48,9 +48,4 @@ public class SessionService {
         sessionRepository.delete(session);
     }
 
-    @Transactional
-    public void removeAllUserSessions(Integer userId){
-        sessionRepository.deleteAllByUserId(userId);
-    }
-
 }
