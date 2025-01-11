@@ -30,7 +30,7 @@ app:
   urls:
     without-auth-allowed: /weather/api/auth/login,
       /weather/api/auth/registration
-    always-allowed: /weather/api/images
+    always-allowed: /weather/api/images, /weather/api/locations
 
   upload:
     image:
@@ -40,9 +40,11 @@ app:
 
   weather:
     open-weather-api:
-#      key: ${WEATHER_KEY}
+      key: ${WEATHER_KEY}
       base-url: https://api.openweathermap.org/
-      geocoding-url: geo/1.0/direct?q=%s&limit=%s&appid=%s
+      geocoding:
+        url: geo/1.0/direct?q=%s&limit=%s&appid=%s
+        default-limit: 5
       weather-url: data/2.5/weather?lat=%s&lon=%s&appid=%s&units=metric
 
 

@@ -12,12 +12,14 @@ import org.mrshoffen.weather.exception.authorization.SessionExpiredException;
 import org.mrshoffen.weather.exception.authorization.UserAlreadyAuthorizedException;
 import org.mrshoffen.weather.exception.authorization.UserUnauthorizedException;
 import org.mrshoffen.weather.exception.image.IncorrectImageFormatException;
+import org.mrshoffen.weather.exception.weather.OpenWeatherApiException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
@@ -99,7 +101,20 @@ public class GlobalControllerAdvice {
 
     }
 
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ProblemDetail> handleMissingParams(MissingServletRequestParameterException ex) {
+        return getProblemDetailResponseEntity(HttpStatus.BAD_REQUEST, ex);
+    }
+
+
+    //weather api
+    @ExceptionHandler(OpenWeatherApiException.class)
+    public ResponseEntity<ProblemDetail> handleOpenWeatherApiException(OpenWeatherApiException e) {
+        return getProblemDetailResponseEntity(HttpStatus.SERVICE_UNAVAILABLE, e);
+    }
+
     private static ResponseEntity<ProblemDetail> getProblemDetailResponseEntity(HttpStatus status, Exception e) {
+
         var problemDetail = ProblemDetail.forStatusAndDetail(status, e.getMessage());
         problemDetail.setTitle(e.getClass().getSimpleName());
         return ResponseEntity
