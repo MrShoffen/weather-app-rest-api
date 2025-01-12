@@ -3,6 +3,7 @@ package org.mrshoffen.weather.service;
 import lombok.RequiredArgsConstructor;
 import org.mrshoffen.weather.exception.weather.OpenWeatherApiException;
 import org.mrshoffen.weather.model.dto.out.LocationDto;
+import org.mrshoffen.weather.model.dto.out.WeatherDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpRequest;
@@ -33,6 +34,9 @@ public class OpenWeatherApiService {
     @Value("${app.weather.open-weather-api.geocoding.default-limit}")
     private int geocodingDefaultLimit;
 
+    @Value("${app.weather.open-weather-api.current-weather-url}")
+    private String currentWeatherUrl;
+
     @Value("${app.weather.open-weather-api.key}")
     private String apiKey;
 
@@ -62,4 +66,29 @@ public class OpenWeatherApiService {
 
         return locations;
     }
+
+    public WeatherDto getWeatherByCoordinates(double lat, double lon) {
+
+        URI uri = URI.create(
+                baseUrl
+                        + currentWeatherUrl
+                        .formatted(lat, lon,  apiKey)
+        );
+
+        WeatherDto weather = restClient.get()
+                .uri(uri)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .onStatus(status -> status.isError(),
+                        (request, response) -> {
+                            throw new OpenWeatherApiException("Open weather API error: %s, status: %s"
+                                    .formatted(response.getStatusText(), response.getStatusCode()));
+                        })
+                .body(new ParameterizedTypeReference<>() {
+                });
+
+        return weather;
+    }
+
+
 }

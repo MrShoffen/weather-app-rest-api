@@ -30,7 +30,8 @@ app:
   urls:
     without-auth-allowed: /weather/api/auth/login,
       /weather/api/auth/registration
-    always-allowed: /weather/api/images, /weather/api/locations
+    always-allowed: /weather/api/images, /weather/api/locations,
+      /weather/api/weather
 
   upload:
     image:
@@ -45,7 +46,7 @@ app:
       geocoding:
         url: geo/1.0/direct?q=%s&limit=%s&appid=%s
         default-limit: 5
-      weather-url: data/2.5/weather?lat=%s&lon=%s&appid=%s&units=metric
+      current-weather-url: data/2.5/weather?lat=%s&lon=%s&appid=%s&units=metric
 
 
 
