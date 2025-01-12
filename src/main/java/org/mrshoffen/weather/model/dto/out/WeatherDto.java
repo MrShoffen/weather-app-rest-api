@@ -14,18 +14,23 @@ import java.util.List;
 public class WeatherDto {
 
     @JsonProperty("weather")
-    private List<Weather> weather;
+    private List<WeatherDescription> weatherDescription;
 
     @JsonProperty("main")
-    private Temperature temperature;
+    private WeatherState weatherState;
 
     @JsonProperty("wind")
-    private Wind wind;
+    private WindState windState;
+
+    @JsonProperty("clouds")
+    private CloudState cloudState;
+
 
 
     @Data
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Weather {
+    public static class WeatherDescription {
+        private int id;
         private String main;
         private String description;
         private String icon;
@@ -33,7 +38,7 @@ public class WeatherDto {
 
     @Data
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Temperature {
+    public static class WeatherState {
         @JsonProperty("temp")
         private float currentTemp;
         @JsonProperty("feels_like")
@@ -50,7 +55,13 @@ public class WeatherDto {
 
     @Data
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Wind {
+    public static class WindState {
         private float speed;
+        private int deg;
+    }
+
+    @Data
+    public static class CloudState {
+        private int all;
     }
 }
