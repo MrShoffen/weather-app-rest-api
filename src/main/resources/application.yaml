@@ -18,6 +18,10 @@ spring:
     multipart:
       max-file-size: 5MB
 
+logging:
+  level:
+    root: warn
+
 
 app:
   session:
