@@ -1,6 +1,7 @@
 package org.mrshoffen.weather.http.controller.authenticated;
 
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.mrshoffen.weather.http.resolver.AuthorizedUser;
 import org.mrshoffen.weather.model.dto.in.LocationSaveDto;
@@ -17,12 +18,12 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/weather/api/user/locations")
-public class UserSavedLocations {
+public class SavedLocationsController {
 
     private final UserLocationService userLocationService;
 
     @PostMapping
-    ResponseEntity<LocationDto> saveLocation(@AuthorizedUser UserResponseDto authorizedUser, @RequestBody LocationSaveDto locationSaveDto) throws URISyntaxException {
+    ResponseEntity<LocationDto> saveLocation(@AuthorizedUser UserResponseDto authorizedUser, @Valid @RequestBody LocationSaveDto locationSaveDto) throws URISyntaxException {
 
         LocationDto locationDto = userLocationService.saveLocationForUser(authorizedUser.getId(), locationSaveDto);
 
@@ -38,5 +39,21 @@ public class UserSavedLocations {
         List<LocationDto> savedLocations = userLocationService.getAllSavedLocations(authorizedUser.getId());
 
         return ResponseEntity.ok(savedLocations);
+    }
+
+    @GetMapping("{locationId:\\d+}")
+    ResponseEntity<LocationDto> getSavedLocation(@AuthorizedUser UserResponseDto authorizedUser, @PathVariable("locationId") Integer locationId) {
+
+        LocationDto locationDto = userLocationService.getLocationByLocationId(authorizedUser.getId(), locationId);
+
+        return ResponseEntity.ok(locationDto);
+    }
+
+    @DeleteMapping("{locationId:\\d+}")
+    public ResponseEntity<Void> deleteSavedLocation(@AuthorizedUser UserResponseDto authorizedUser, @PathVariable("locationId") Integer locationId) {
+
+        userLocationService.deleteSavedLocation(authorizedUser.getId(), locationId);
+
+        return ResponseEntity.noContent().build();
     }
 }

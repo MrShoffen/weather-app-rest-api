@@ -12,4 +12,7 @@ public interface LocationRepository extends JpaRepository<Location, Integer> {
 
     List<Location> findAllByUserId(Integer userId);
 
+    Optional<Location> findByIdAndUserId(Integer id, Integer userId);
+
+
 }

@@ -13,6 +13,7 @@ import org.mrshoffen.weather.exception.authorization.UserAlreadyAuthorizedExcept
 import org.mrshoffen.weather.exception.authorization.UserUnauthorizedException;
 import org.mrshoffen.weather.exception.image.IncorrectImageFormatException;
 import org.mrshoffen.weather.exception.location.LocationAlreadySavedException;
+import org.mrshoffen.weather.exception.location.LocationNotFoundException;
 import org.mrshoffen.weather.exception.weather.OpenWeatherApiException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -119,6 +120,11 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(LocationAlreadySavedException.class)
     public ResponseEntity<ProblemDetail> handleLocationAlreadySavedException(LocationAlreadySavedException e) {
         return getProblemDetailResponseEntity(HttpStatus.CONFLICT, e);
+    }
+
+    @ExceptionHandler(LocationNotFoundException.class)
+    public ResponseEntity<ProblemDetail> handleLocationNotFoundException(LocationNotFoundException e) {
+        return getProblemDetailResponseEntity(HttpStatus.NOT_FOUND, e);
     }
 
 

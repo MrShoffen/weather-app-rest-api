@@ -2,6 +2,7 @@ package org.mrshoffen.weather.service;
 
 import lombok.RequiredArgsConstructor;
 import org.mrshoffen.weather.exception.location.LocationAlreadySavedException;
+import org.mrshoffen.weather.exception.location.LocationNotFoundException;
 import org.mrshoffen.weather.mapper.LocationMapper;
 import org.mrshoffen.weather.model.dto.in.LocationSaveDto;
 import org.mrshoffen.weather.model.dto.out.LocationDto;
@@ -9,6 +10,7 @@ import org.mrshoffen.weather.model.entity.Location;
 import org.mrshoffen.weather.repository.LocationRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class UserLocationService {
 
     private final LocationRepository locationRepository;
 
+    @Transactional
     public LocationDto saveLocationForUser(Integer userId, LocationSaveDto locationSaveDto) {
 
 
@@ -40,6 +43,24 @@ public class UserLocationService {
                 .stream()
                 .map(locationMapper::toDto)
                 .toList();
+
+    }
+
+    public LocationDto getLocationByLocationId(Integer userId, Integer locationId) {
+
+        return locationRepository.findByIdAndUserId(locationId, userId)
+                .map(locationMapper::toDto)
+                .orElseThrow(() -> new LocationNotFoundException("Location not found"));
+    }
+
+    @Transactional
+    public void deleteSavedLocation(Integer userId, Integer locationId) {
+
+        Location locationForDelete = locationRepository
+                .findByIdAndUserId(locationId, userId)
+                .orElseThrow(() -> new LocationNotFoundException("Location not found"));
+
+        locationRepository.delete(locationForDelete);
 
     }
 }
