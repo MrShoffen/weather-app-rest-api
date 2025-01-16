@@ -36,6 +36,7 @@ public class SessionService {
         sessionRepository.save(session);
 
         return sessionMapper.toResponseDto(session);
+        //session update
     }
 
     //todo maybe return dto?

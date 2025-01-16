@@ -2,7 +2,7 @@ package org.mrshoffen.weather.service;
 
 import lombok.RequiredArgsConstructor;
 import org.mrshoffen.weather.exception.weather.OpenWeatherApiException;
-import org.mrshoffen.weather.model.dto.out.LocationDto;
+import org.mrshoffen.weather.model.dto.out.LocationResponseDto;
 import org.mrshoffen.weather.model.dto.out.WeatherDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -36,7 +36,7 @@ public class OpenWeatherApiService {
 
     private final RestClient restClient;
 
-    public List<LocationDto> findLocationsByName(String locationName) {
+    public List<LocationResponseDto> findLocationsByName(String locationName) {
 
         String encodedLocation = URLEncoder.encode(locationName, StandardCharsets.UTF_8);
 

@@ -5,7 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.mrshoffen.weather.http.resolver.AuthorizedUser;
 import org.mrshoffen.weather.model.dto.in.LocationSaveDto;
-import org.mrshoffen.weather.model.dto.out.LocationDto;
+import org.mrshoffen.weather.model.dto.out.LocationResponseDto;
 import org.mrshoffen.weather.model.dto.out.UserResponseDto;
 import org.mrshoffen.weather.service.UserLocationService;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +23,9 @@ public class SavedLocationsController {
     private final UserLocationService userLocationService;
 
     @PostMapping
-    ResponseEntity<LocationDto> saveLocation(@AuthorizedUser UserResponseDto authorizedUser, @Valid @RequestBody LocationSaveDto locationSaveDto) throws URISyntaxException {
+    ResponseEntity<LocationResponseDto> saveLocation(@AuthorizedUser UserResponseDto authorizedUser, @Valid @RequestBody LocationSaveDto locationSaveDto) throws URISyntaxException {
 
-        LocationDto locationDto = userLocationService.saveLocationForUser(authorizedUser.getId(), locationSaveDto);
+        LocationResponseDto locationDto = userLocationService.saveLocationForUser(authorizedUser.getId(), locationSaveDto);
 
         return ResponseEntity
                 .created(new URI("weather/api/user/locations/" + locationDto.getId()))
@@ -34,17 +34,17 @@ public class SavedLocationsController {
     }
 
     @GetMapping
-    ResponseEntity<List<LocationDto>> getAllSavedLocations(@AuthorizedUser UserResponseDto authorizedUser) {
+    ResponseEntity<List<LocationResponseDto>> getAllSavedLocations(@AuthorizedUser UserResponseDto authorizedUser) {
 
-        List<LocationDto> savedLocations = userLocationService.getAllSavedLocations(authorizedUser.getId());
+        List<LocationResponseDto> savedLocations = userLocationService.getAllSavedLocations(authorizedUser.getId());
 
         return ResponseEntity.ok(savedLocations);
     }
 
     @GetMapping("{locationId:\\d+}")
-    ResponseEntity<LocationDto> getSavedLocation(@AuthorizedUser UserResponseDto authorizedUser, @PathVariable("locationId") Integer locationId) {
+    ResponseEntity<LocationResponseDto> getSavedLocation(@AuthorizedUser UserResponseDto authorizedUser, @PathVariable("locationId") Integer locationId) {
 
-        LocationDto locationDto = userLocationService.getLocationByLocationId(authorizedUser.getId(), locationId);
+        LocationResponseDto locationDto = userLocationService.getLocationByLocationId(authorizedUser.getId(), locationId);
 
         return ResponseEntity.ok(locationDto);
     }

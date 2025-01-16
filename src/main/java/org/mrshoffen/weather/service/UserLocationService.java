@@ -5,7 +5,7 @@ import org.mrshoffen.weather.exception.location.LocationAlreadySavedException;
 import org.mrshoffen.weather.exception.location.LocationNotFoundException;
 import org.mrshoffen.weather.mapper.LocationMapper;
 import org.mrshoffen.weather.model.dto.in.LocationSaveDto;
-import org.mrshoffen.weather.model.dto.out.LocationDto;
+import org.mrshoffen.weather.model.dto.out.LocationResponseDto;
 import org.mrshoffen.weather.model.entity.Location;
 import org.mrshoffen.weather.repository.LocationRepository;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,7 +23,7 @@ public class UserLocationService {
     private final LocationRepository locationRepository;
 
     @Transactional
-    public LocationDto saveLocationForUser(Integer userId, LocationSaveDto locationSaveDto) {
+    public LocationResponseDto saveLocationForUser(Integer userId, LocationSaveDto locationSaveDto) {
 
 
         Location entity = locationMapper.toEntity(locationSaveDto, userId);
@@ -37,7 +37,7 @@ public class UserLocationService {
         return locationMapper.toDto(entity);
     }
 
-    public List<LocationDto> getAllSavedLocations(Integer userId) {
+    public List<LocationResponseDto> getAllSavedLocations(Integer userId) {
 
         return locationRepository.findAllByUserId(userId)
                 .stream()
@@ -46,7 +46,7 @@ public class UserLocationService {
 
     }
 
-    public LocationDto getLocationByLocationId(Integer userId, Integer locationId) {
+    public LocationResponseDto getLocationByLocationId(Integer userId, Integer locationId) {
 
         return locationRepository.findByIdAndUserId(locationId, userId)
                 .map(locationMapper::toDto)
