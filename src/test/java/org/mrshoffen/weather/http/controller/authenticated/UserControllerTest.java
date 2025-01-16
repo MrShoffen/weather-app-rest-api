@@ -53,22 +53,8 @@ class UserControllerTest {
     @BeforeEach
     void setUp() {
         setField(userController, "sessionCookieName", sessionCookieName);
-        setField(userController, "authorizedUserAttributeName", authorizedUserAttributeName);
 
         mockUser = new UserResponseDto(1, "test_user", "test_avatar_url");
-    }
-
-    @Test
-    void getCurrentUserFromRequest_UserIsPresentInRequest() {
-        doReturn(mockUser)
-                .when(httpServletRequest)
-                .getAttribute(authorizedUserAttributeName);
-
-        assertThat(userController.getCurrentUserFromRequest(httpServletRequest))
-                .isEqualTo(mockUser);
-
-        verify(httpServletRequest).getAttribute(authorizedUserAttributeName);
-        verifyNoMoreInteractions(httpServletRequest);
     }
 
 

@@ -2,19 +2,25 @@ package org.mrshoffen.weather.config;
 
 import lombok.RequiredArgsConstructor;
 import org.mrshoffen.weather.http.interceptor.AuthorizationInterceptor;
+import org.mrshoffen.weather.http.resolver.AuthorizedUserArgumentResolver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
     private final AuthorizationInterceptor authorizationInterceptor;
+
+    private final AuthorizedUserArgumentResolver authorizedUserArgumentResolver;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -32,8 +38,13 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowCredentials(true);
     }
 
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(authorizedUserArgumentResolver);
+    }
+
     @Bean
-    public RestClient restClient(){
+    public RestClient restClient() {
         return RestClient.create();
     }
 

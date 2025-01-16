@@ -9,14 +9,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class WeatherAppRestApiApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(WeatherAppRestApiApplication.class, args);
+        SpringApplication.run(WeatherAppRestApiApplication.class, args);
 
-
-        OpenWeatherApiService bean = context.getBean(OpenWeatherApiService.class);
-
-
-
-        System.out.println();
     }
 
 }
