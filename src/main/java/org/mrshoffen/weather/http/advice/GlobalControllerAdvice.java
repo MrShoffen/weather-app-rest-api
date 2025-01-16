@@ -12,6 +12,7 @@ import org.mrshoffen.weather.exception.authorization.SessionExpiredException;
 import org.mrshoffen.weather.exception.authorization.UserAlreadyAuthorizedException;
 import org.mrshoffen.weather.exception.authorization.UserUnauthorizedException;
 import org.mrshoffen.weather.exception.image.IncorrectImageFormatException;
+import org.mrshoffen.weather.exception.location.LocationAlreadySavedException;
 import org.mrshoffen.weather.exception.weather.OpenWeatherApiException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -112,6 +113,14 @@ public class GlobalControllerAdvice {
     public ResponseEntity<ProblemDetail> handleOpenWeatherApiException(OpenWeatherApiException e) {
         return getProblemDetailResponseEntity(HttpStatus.SERVICE_UNAVAILABLE, e);
     }
+
+    //location
+
+    @ExceptionHandler(LocationAlreadySavedException.class)
+    public ResponseEntity<ProblemDetail> handleLocationAlreadySavedException(LocationAlreadySavedException e) {
+        return getProblemDetailResponseEntity(HttpStatus.CONFLICT, e);
+    }
+
 
     private static ResponseEntity<ProblemDetail> getProblemDetailResponseEntity(HttpStatus status, Exception e) {
 

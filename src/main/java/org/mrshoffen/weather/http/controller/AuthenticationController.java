@@ -41,7 +41,7 @@ public class AuthenticationController {
 
 
         return ResponseEntity
-                .created(new URI("/weather/api/v1/user"))
+                .created(new URI("/weather/api/user"))
                 .body(register);
     }
 

@@ -1,6 +1,5 @@
 package org.mrshoffen.weather.http.controller;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.mrshoffen.weather.model.dto.out.LocationDto;
 import org.mrshoffen.weather.service.OpenWeatherApiService;

@@ -6,20 +6,14 @@ import org.mrshoffen.weather.model.dto.out.LocationDto;
 import org.mrshoffen.weather.model.dto.out.WeatherDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.function.Predicate;
 
 @Service
 @RequiredArgsConstructor
@@ -52,7 +46,7 @@ public class OpenWeatherApiService {
                         .formatted(encodedLocation, geocodingDefaultLimit,  apiKey)
         );
 
-        List<LocationDto> locations = restClient.get()
+        return restClient.get()
                 .uri(uri)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
@@ -63,8 +57,6 @@ public class OpenWeatherApiService {
                         })
                 .body(new ParameterizedTypeReference<>() {
                 });
-
-        return locations;
     }
 
     public WeatherDto getWeatherByCoordinates(double lat, double lon) {
@@ -75,7 +67,7 @@ public class OpenWeatherApiService {
                         .formatted(lat, lon,  apiKey)
         );
 
-        WeatherDto weather = restClient.get()
+        return restClient.get()
                 .uri(uri)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
@@ -86,8 +78,6 @@ public class OpenWeatherApiService {
                         })
                 .body(new ParameterizedTypeReference<>() {
                 });
-
-        return weather;
     }
 
 

@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Data
 @Table(name = "locations")
-@Entity
+@Entity//todo add constraint to annotation
 public class Location {
 
     @Id
@@ -22,9 +22,14 @@ public class Location {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(name = "state")
+    private String state;
+
+    @Column(name = "country", nullable = false)
+    private String country;
+
+    @Column(name = "user_id", nullable = false)
+    private Integer userId;
 
     @Column(name = "latitude", nullable = false)
     private Double latitude;
