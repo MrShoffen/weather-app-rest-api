@@ -298,11 +298,22 @@ GET /weather/api/weather?lat=120&lon=30.316229
    "instance": "/weather/api/user"
 }
 
-
-
 ```
 
 Если при любом запросе бэкенд обнаруживает, что сессия пользователя истекла - возвращается соответствующая ошибка
+. И сессия удаляется из БД
+```json
+401 Unauthorized
+
+{
+    "type": "about:blank",
+    "title": "SessionExpiredException",
+    "status": 401,
+    "detail": "Your session has expired! Please login again.",
+    "instance": "/weather/api/user/locations"
+}
+```
+Самый распространенный случай - у пользователя куки еще живет, но сессия истекла (т.к. куки устанавилваются долгоживущие).
 
 ---
 #### Выход из аккаунта - POST /weather/api/auth/logout
