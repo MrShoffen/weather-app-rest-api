@@ -13,6 +13,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
+//todo move to separate repository
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/weather/api/images")
