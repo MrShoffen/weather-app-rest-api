@@ -22,7 +22,7 @@ import static org.mrshoffen.weather.util.PasswordEncoder.*;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    private final UserService userService;
+    private final UserProfileService userService;
 
     private final SessionService sessionService;
 

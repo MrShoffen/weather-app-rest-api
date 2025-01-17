@@ -28,7 +28,7 @@ public class OpenWeatherApiService {
     @Value("${app.weather.open-weather-api.geocoding.default-limit}")
     private int geocodingDefaultLimit;
 
-    @Value("${app.weather.open-weather-api.current-weather-url}")
+    @Value("${app.weather.open-weather-api.current-weather.url}")
     private String currentWeatherUrl;
 
     @Value("${app.weather.open-weather-api.key}")

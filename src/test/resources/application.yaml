@@ -43,7 +43,8 @@ app:
       geocoding:
         url: geo/1.0/direct?q=%s&limit=%s&appid=%s
         default-limit: 5
-      current-weather-url: data/2.5/weather?lat=%s&lon=%s&appid=%s&units=metric
+      current-weather:
+        url: data/2.5/weather?lat=%s&lon=%s&appid=%s&units=metric
 
 
 

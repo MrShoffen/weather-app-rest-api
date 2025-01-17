@@ -1,9 +1,8 @@
 package org.mrshoffen.weather.http.controller.authenticated;
 
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.mrshoffen.weather.http.resolver.AuthorizedUser;
+import org.mrshoffen.weather.http.controller.authenticated.resolver.AuthorizedUser;
 import org.mrshoffen.weather.model.dto.out.LocationWeatherDto;
 import org.mrshoffen.weather.model.dto.out.UserResponseDto;
 import org.mrshoffen.weather.service.UserLocationWeatherService;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

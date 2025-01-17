@@ -20,7 +20,7 @@ import static org.mrshoffen.weather.util.PasswordEncoder.*;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserProfileService {
 
     private final UserRepository userRepository;
 
@@ -83,7 +83,6 @@ public class UserService {
     @Transactional
     public void deleteUser(Integer userId) {
         userRepository.deleteById(userId);
-        //todo remove image
     }
 
     private void checkForOccupiedUsername(String username) {

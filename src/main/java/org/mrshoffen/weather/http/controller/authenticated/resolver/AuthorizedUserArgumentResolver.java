@@ -1,7 +1,11 @@
-package org.mrshoffen.weather.http.resolver;
+package org.mrshoffen.weather.http.controller.authenticated.resolver;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import org.mrshoffen.weather.exception.authorization.SessionNotFoundException;
+import org.mrshoffen.weather.mapper.UserMapper;
 import org.mrshoffen.weather.model.dto.out.UserResponseDto;
+import org.mrshoffen.weather.service.SessionService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -10,11 +14,20 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-@Component
-public class AuthorizedUserArgumentResolver  implements HandlerMethodArgumentResolver {
+import java.util.UUID;
 
-    @Value("${app.session.authorized-user-attribute-name}")
-    private String authorizedUserAttributeName;
+import static org.mrshoffen.weather.util.CookieUtil.getCookieByName;
+
+@Component
+@RequiredArgsConstructor
+public class AuthorizedUserArgumentResolver implements HandlerMethodArgumentResolver {
+
+    @Value("${app.session.cookie.name}")
+    private String sessionCookieName;
+
+    private final SessionService sessionService;
+
+    private final UserMapper userMapper;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -27,7 +40,14 @@ public class AuthorizedUserArgumentResolver  implements HandlerMethodArgumentRes
                                   ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest,
                                   WebDataBinderFactory binderFactory) throws Exception {
-        HttpServletRequest servletRequest = (HttpServletRequest) webRequest.getNativeRequest();
-        return servletRequest.getAttribute(authorizedUserAttributeName);
+        HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
+
+        UserResponseDto authorizedUser = getCookieByName(request.getCookies(), sessionCookieName)
+                .map(cookie -> UUID.fromString(cookie.getValue()))
+                .map(sessionService::getSessionById)
+                .map(session -> userMapper.toResponseDto(session.getUser()))
+                .orElseThrow(() -> new SessionNotFoundException("Session not found!"));
+
+        return authorizedUser;
     }
 }

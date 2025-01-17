@@ -36,7 +36,7 @@ class UserServiceTest {
     SessionService sessionService;
 
     @InjectMocks
-    UserService userService;
+    UserProfileService userService;
 
     UserResponseDto mockUserResponseDto;
 

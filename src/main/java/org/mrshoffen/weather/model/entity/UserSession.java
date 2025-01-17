@@ -27,7 +27,6 @@ public class UserSession {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    //todo check in test thant all sessions are cleared
     private User user;
 
     @Column(name = "expires_at", nullable = false)

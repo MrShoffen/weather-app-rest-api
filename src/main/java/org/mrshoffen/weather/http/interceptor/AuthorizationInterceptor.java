@@ -33,12 +33,8 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
     @Value("${app.session.cookie.name}")
     private String sessionCookieName;
 
-    @Value("${app.session.authorized-user-attribute-name}")
-    private String authorizedUserAttributeName;
-
     private final SessionService sessionService;
 
-    private final UserMapper userMapper;
 
 
     @Override
@@ -88,8 +84,6 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             throw new UserAlreadyAuthorizedException("You are already authorized!");
         }
 
-        //todo maybe set full user entity? or just an id? or session?
-        request.setAttribute(authorizedUserAttributeName, userMapper.toResponseDto(userSession.getUser()));
         return true;
     }
 

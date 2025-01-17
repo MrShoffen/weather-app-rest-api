@@ -39,7 +39,6 @@ public class SessionService {
         //session update
     }
 
-    //todo maybe return dto?
     public UserSession getSessionById(UUID sessionId) {
         return sessionRepository.findUserSessionById(sessionId)
                 .orElseThrow(() -> new SessionNotFoundException("Session with id " + sessionId + " not found"));

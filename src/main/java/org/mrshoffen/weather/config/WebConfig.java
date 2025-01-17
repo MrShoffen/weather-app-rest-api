@@ -2,8 +2,7 @@ package org.mrshoffen.weather.config;
 
 import lombok.RequiredArgsConstructor;
 import org.mrshoffen.weather.http.interceptor.AuthorizationInterceptor;
-import org.mrshoffen.weather.http.resolver.AuthorizedUserArgumentResolver;
-import org.springframework.beans.factory.annotation.Value;
+import org.mrshoffen.weather.http.controller.authenticated.resolver.AuthorizedUserArgumentResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
@@ -31,7 +30,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                //todo move to prop
                 .allowedOrigins("http://192.168.0.190:5173", "http://192.168.0.125:80")
                 .allowedMethods("GET", "POST", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("*")

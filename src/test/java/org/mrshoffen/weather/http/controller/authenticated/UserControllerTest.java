@@ -2,28 +2,20 @@ package org.mrshoffen.weather.http.controller.authenticated;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mrshoffen.weather.model.dto.in.UserEditPasswordDto;
 import org.mrshoffen.weather.model.dto.in.UserEditProfileDto;
 import org.mrshoffen.weather.model.dto.out.UserResponseDto;
-import org.mrshoffen.weather.service.UserService;
-import org.mrshoffen.weather.util.CookieUtil;
-import org.springframework.beans.factory.annotation.Value;
+import org.mrshoffen.weather.service.UserProfileService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mrshoffen.weather.util.CookieUtil.*;
 import static org.springframework.test.util.ReflectionTestUtils.*;
@@ -33,10 +25,8 @@ class UserControllerTest {
 
     String sessionCookieName = "CUSTOM_SESSION";
 
-    String authorizedUserAttributeName = "authorizedUser";
-
     @Mock
-    UserService userService;
+    UserProfileService userService;
 
     @InjectMocks
     UserController userController;

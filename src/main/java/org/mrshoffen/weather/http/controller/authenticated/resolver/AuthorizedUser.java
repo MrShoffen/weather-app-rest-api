@@ -1,4 +1,4 @@
-package org.mrshoffen.weather.http.resolver;
+package org.mrshoffen.weather.http.controller.authenticated.resolver;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

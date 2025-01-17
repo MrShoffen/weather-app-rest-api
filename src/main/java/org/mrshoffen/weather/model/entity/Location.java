@@ -13,8 +13,14 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "locations")
-@Entity//todo add constraint to annotation
+@Table(
+        name = "locations",
+        uniqueConstraints = @UniqueConstraint(
+                name = "user_unique_location_constraint",
+                columnNames = {"user_id", "latitude", "longitude"}
+        )
+)
+@Entity
 public class Location {
 
     @Id

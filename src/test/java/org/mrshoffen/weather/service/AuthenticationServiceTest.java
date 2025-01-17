@@ -11,9 +11,6 @@ import org.mrshoffen.weather.model.dto.in.UserLoginDto;
 import org.mrshoffen.weather.model.dto.out.SessionResponseDto;
 import org.mrshoffen.weather.model.dto.out.UserResponseDto;
 import org.mrshoffen.weather.model.entity.User;
-import org.mrshoffen.weather.service.AuthenticationService;
-import org.mrshoffen.weather.service.SessionService;
-import org.mrshoffen.weather.service.UserService;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -26,7 +23,7 @@ import static org.mrshoffen.weather.util.PasswordEncoder.*;
 class AuthenticationServiceTest {
 
     @Mock
-    UserService userService;
+    UserProfileService userService;
 
     @Mock
     SessionService sessionService;

@@ -3,7 +3,7 @@ package org.mrshoffen.weather.http.controller.authenticated;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.mrshoffen.weather.http.resolver.AuthorizedUser;
+import org.mrshoffen.weather.http.controller.authenticated.resolver.AuthorizedUser;
 import org.mrshoffen.weather.model.dto.in.LocationSaveDto;
 import org.mrshoffen.weather.model.dto.out.LocationResponseDto;
 import org.mrshoffen.weather.model.dto.out.UserResponseDto;

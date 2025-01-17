@@ -2,15 +2,14 @@ package org.mrshoffen.weather.http.controller.authenticated;
 
 
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.mrshoffen.weather.http.resolver.AuthorizedUser;
+import org.mrshoffen.weather.http.controller.authenticated.resolver.AuthorizedUser;
 import org.mrshoffen.weather.model.dto.in.UserEditPasswordDto;
 import org.mrshoffen.weather.model.dto.in.UserEditProfileDto;
 import org.mrshoffen.weather.model.dto.out.UserResponseDto;
-import org.mrshoffen.weather.service.UserService;
+import org.mrshoffen.weather.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +24,7 @@ public class UserController {
     @Value("${app.session.cookie.name}")
     private String sessionCookieName;
 
-    private final UserService userService;
+    private final UserProfileService userService;
 
 
     @GetMapping
