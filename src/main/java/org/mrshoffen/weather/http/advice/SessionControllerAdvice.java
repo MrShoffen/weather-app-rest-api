@@ -28,8 +28,8 @@ public class SessionControllerAdvice {
 
     @ExceptionHandler(SessionNotFoundException.class)
     public ResponseEntity<ProblemDetail> handleSessionNotFoundException(SessionNotFoundException e, HttpServletResponse response) {
-//        Cookie cookie = clearCustomCookie(sessionCookieName);
-//        response.addCookie(cookie);
+        Cookie cookie = clearCustomCookie(sessionCookieName);
+        response.addCookie(cookie);
 
         return getProblemDetailResponseEntity(HttpStatus.NOT_FOUND, e);
     }
