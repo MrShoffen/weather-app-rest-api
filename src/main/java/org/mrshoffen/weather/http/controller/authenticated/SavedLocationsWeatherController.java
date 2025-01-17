@@ -27,7 +27,6 @@ public class SavedLocationsWeatherController {
 
         List<LocationWeatherDto> locationsWithWeather =
                 userLocationWeatherService.getWeatherForAllSavedLocations(authorizedUser.getId());
-
         return ResponseEntity.ok(locationsWithWeather);
 
     }
