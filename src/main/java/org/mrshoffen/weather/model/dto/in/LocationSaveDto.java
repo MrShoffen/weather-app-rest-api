@@ -3,9 +3,6 @@ package org.mrshoffen.weather.model.dto.in;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import lombok.Data;
-import org.hibernate.validator.constraints.Currency;
-import org.mapstruct.Mapping;
-import org.springframework.format.annotation.NumberFormat;
 
 @Data
 public class LocationSaveDto {

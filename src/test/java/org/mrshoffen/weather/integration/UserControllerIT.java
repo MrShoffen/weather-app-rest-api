@@ -2,7 +2,6 @@ package org.mrshoffen.weather.integration;
 
 import jakarta.servlet.http.Cookie;
 import org.hamcrest.Matchers;
-import org.hibernate.validator.internal.constraintvalidators.hv.Mod11CheckValidator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.mrshoffen.weather.model.entity.UserSession;

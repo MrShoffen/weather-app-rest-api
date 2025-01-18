@@ -30,12 +30,6 @@ app:
       /weather/api/auth/registration
     always-allowed: /weather/api/images
 
-  upload:
-    image:
-
-
-
-
   weather:
     open-weather-api:
       key: key

@@ -10,7 +10,6 @@ import org.mrshoffen.weather.model.entity.UserSession;
 import org.mrshoffen.weather.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

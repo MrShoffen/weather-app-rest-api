@@ -8,7 +8,6 @@ import org.mrshoffen.weather.model.entity.UserSession;
 import org.mrshoffen.weather.exception.authorization.SessionExpiredException;
 import org.mrshoffen.weather.exception.authorization.UserAlreadyAuthorizedException;
 import org.mrshoffen.weather.exception.authorization.UserUnauthorizedException;
-import org.mrshoffen.weather.mapper.UserMapper;
 import org.mrshoffen.weather.service.SessionService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
