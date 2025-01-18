@@ -16,14 +16,14 @@ public class UserLocationWeatherService {
     private final UserLocationService userLocationService;
 
     public List<LocationWeatherDto> getWeatherForAllSavedLocations(Integer userId) {
-
         return userLocationService
                 .getAllSavedLocations(userId)
                 .stream()
                 .map(location ->
                         new LocationWeatherDto(
                                 location,
-                                openWeatherApiService.getWeatherByCoordinates(location.getLatitude(), location.getLongitude())
+                                openWeatherApiService
+                                        .getWeatherByCoordinates(location.getLatitude(), location.getLongitude())
                         ))
                 .toList();
 

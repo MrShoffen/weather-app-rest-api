@@ -10,6 +10,7 @@ import org.mrshoffen.weather.model.entity.UserSession;
 import org.mrshoffen.weather.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -18,7 +19,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class SessionService {
 
-    @Getter
     @Value("${app.session.minutes-before-expire}")
     private int minutesForExpiration;
 
@@ -26,6 +26,7 @@ public class SessionService {
 
     private final SessionMapper sessionMapper;
 
+    @Transactional
     public SessionResponseDto createSession(User user) {
         UserSession session = UserSession.builder()
                 .user(user)
@@ -35,7 +36,6 @@ public class SessionService {
         sessionRepository.save(session);
 
         return sessionMapper.toResponseDto(session);
-        //session update
     }
 
     public UserSession getSessionById(UUID sessionId) {

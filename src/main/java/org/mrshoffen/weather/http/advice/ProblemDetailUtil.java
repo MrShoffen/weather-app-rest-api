@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 public class ProblemDetailUtil {
 
     public static ResponseEntity<ProblemDetail> getProblemDetailResponseEntity(HttpStatus status, Exception e) {
-
         var problemDetail = ProblemDetail.forStatusAndDetail(status, e.getMessage());
         problemDetail.setTitle(e.getClass().getSimpleName());
         return ResponseEntity

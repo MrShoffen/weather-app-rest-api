@@ -31,7 +31,6 @@ public class LocationController {
                                                                   String name) {
 
         List<LocationResponseDto> locationsByName = weatherService.findLocationsByName(name);
-
         return ResponseEntity.ok(locationsByName);
     }
 }

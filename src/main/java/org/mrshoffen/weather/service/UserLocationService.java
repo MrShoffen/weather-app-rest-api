@@ -24,8 +24,6 @@ public class UserLocationService {
 
     @Transactional
     public LocationResponseDto saveLocationForUser(Integer userId, LocationSaveDto locationSaveDto) {
-
-
         Location entity = locationMapper.toEntity(locationSaveDto, userId);
 
         try {
@@ -38,16 +36,13 @@ public class UserLocationService {
     }
 
     public List<LocationResponseDto> getAllSavedLocations(Integer userId) {
-
         return locationRepository.findAllByUserIdOrderById(userId)
                 .stream()
                 .map(locationMapper::toDto)
                 .toList();
-
     }
 
     public LocationResponseDto getLocationByLocationId(Integer userId, Integer locationId) {
-
         return locationRepository.findByIdAndUserId(locationId, userId)
                 .map(locationMapper::toDto)
                 .orElseThrow(() -> new LocationNotFoundException("Location not found"));
@@ -55,12 +50,10 @@ public class UserLocationService {
 
     @Transactional
     public void deleteSavedLocation(Integer userId, Integer locationId) {
-
         Location locationForDelete = locationRepository
                 .findByIdAndUserId(locationId, userId)
                 .orElseThrow(() -> new LocationNotFoundException("Location not found"));
 
         locationRepository.delete(locationForDelete);
-
     }
 }

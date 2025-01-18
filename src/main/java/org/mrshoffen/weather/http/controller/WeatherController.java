@@ -32,7 +32,6 @@ public class WeatherController {
                                                    Double lon) {
 
         WeatherDto weatherDto = weatherService.getWeatherByCoordinates(lat, lon);
-
         return ResponseEntity.ok(weatherDto);
     }
 }

@@ -37,7 +37,6 @@ public class AuthenticationController {
     ResponseEntity<UserResponseDto> register(@Valid @RequestBody UserRegistrationDto userRegistrationDto) throws URISyntaxException {
         UserResponseDto register = authenticationService.register(userRegistrationDto);
 
-
         return ResponseEntity
                 .created(new URI("/weather/api/user"))
                 .body(register);

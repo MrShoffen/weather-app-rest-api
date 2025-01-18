@@ -38,7 +38,6 @@ public class OpenWeatherApiService {
     private final RestClient restClient;
 
     public List<LocationResponseDto> findLocationsByName(String locationName) {
-
         String encodedLocation = URLEncoder.encode(locationName, StandardCharsets.UTF_8);
 
         URI uri = URI.create(
@@ -61,13 +60,11 @@ public class OpenWeatherApiService {
     }
 
     public WeatherDto getWeatherByCoordinates(double lat, double lon) {
-
         URI uri = URI.create(
                 baseUrl
                         + currentWeatherUrl
                         .formatted(lat, lon,  apiKey)
         );
-
 
         return restClient.get()
                 .uri(uri)
@@ -81,6 +78,4 @@ public class OpenWeatherApiService {
                 .body(new ParameterizedTypeReference<>() {
                 });
     }
-
-
 }

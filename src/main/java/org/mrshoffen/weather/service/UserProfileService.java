@@ -26,9 +26,6 @@ public class UserProfileService {
 
     private final UserMapper userMapper;
 
-    private final SessionService sessionService;
-
-
     @Transactional
     public UserResponseDto save(UserRegistrationDto registrationDto) {
         checkForOccupiedUsername(registrationDto.getUsername());
