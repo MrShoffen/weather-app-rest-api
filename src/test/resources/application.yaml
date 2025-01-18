@@ -32,9 +32,9 @@ app:
 
   upload:
     image:
-      directory: ./resources/images
-      allowed-formats: .png , .jpg , .jpeg
-      base-url: /weather/api/images/
+
+
+
 
   weather:
     open-weather-api:

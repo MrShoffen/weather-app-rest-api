@@ -8,8 +8,7 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Setter
-@Getter
+@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WeatherDto {
 

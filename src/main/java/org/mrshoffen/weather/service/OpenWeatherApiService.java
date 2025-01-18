@@ -6,6 +6,7 @@ import org.mrshoffen.weather.model.dto.out.LocationResponseDto;
 import org.mrshoffen.weather.model.dto.out.WeatherDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -50,7 +51,7 @@ public class OpenWeatherApiService {
                 .uri(uri)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .onStatus(status -> status.isError(),
+                .onStatus(HttpStatusCode::isError,
                         (request, response) -> {
                             throw new OpenWeatherApiException("Open weather API error: %s, status: %s"
                                     .formatted(response.getStatusText(), response.getStatusCode()));
@@ -66,6 +67,7 @@ public class OpenWeatherApiService {
                         + currentWeatherUrl
                         .formatted(lat, lon,  apiKey)
         );
+
 
         return restClient.get()
                 .uri(uri)

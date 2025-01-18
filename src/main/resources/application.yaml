@@ -31,14 +31,7 @@ app:
   urls:
     without-auth-allowed: /weather/api/auth/login,
       /weather/api/auth/registration
-    always-allowed: /weather/api/images, /weather/api/locations,
-      /weather/api/weather
-
-  upload:
-    image:
-      directory: ./resources/images
-      allowed-formats: .png , .jpg , .jpeg
-      base-url: /weather/api/images/
+    always-allowed: /weather/api/locations, /weather/api/weather
 
   weather:
     open-weather-api:

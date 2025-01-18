@@ -190,12 +190,19 @@ http {
                         proxy_set_header X-Real-IP $remote_addr;
                 }
 
+                location /image-upload-api {
+                        proxy_pass http://cities/image-upload-api;
+                        proxy_set_header Host $host;
+                        proxy_set_header X-Real-IP $remote_addr;
+                }
+
                 location /weather-app/ {
                         proxy_pass http://frontend-react/;
                         proxy_set_header Host $host;
                         proxy_set_header X-Real-IP $remote_addr;
 
                 }
+
         }
 }
 
@@ -239,11 +246,12 @@ services:
   cities-autofill:
     container_name: cities-autofill-api
     image: cities_autofill_api:1
+    environment:
+    - IMGBB_KEY=f3d7b85ce7fca711c64ba63c15e5ecaf
 
   weather-rest-frontend:
     container_name: react-weather-frontend
     image: weather-react-frontend:1
-
 
   database:
     container_name: weather_database
