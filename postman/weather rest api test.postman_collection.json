@@ -1,0 +1,847 @@
+{
+	"info": {
+		"_postman_id": "a119b637-2eaf-4599-b30a-fc54a3b31a36",
+		"name": "weather rest api test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38369136"
+	},
+	"item": [
+		{
+			"name": "Unauthorized",
+			"item": [
+				{
+					"name": "1.0  - register (success)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"username\",\r\n    \"password\" : \"password\",\r\n    \"avatarUrl\" : \"test.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/weather/api/auth/registration",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"auth",
+								"registration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.1 - register (not valid)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"user name\",\r\n    \"password\" : \"pas\",\r\n    \"avatarUrl\" : \"test.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/weather/api/auth/registration",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"auth",
+								"registration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.3  - register (already exists)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"username\",\r\n    \"password\" : \"password\",\r\n    \"avatarUrl\" : \"test.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/weather/api/auth/registration",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"auth",
+								"registration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.0 - login (not valid input)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"user name\",\r\n    \"password\" : \"абв\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/weather/api/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.1 - login (user not found)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"username_another\",\r\n    \"password\" : \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/weather/api/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.2 - login (user not found) Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"username_another\",\r\n    \"password\" : \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/weather/api/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.3 - login (incorrect pass)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"username\",\r\n    \"password\" : \"password_not_correct\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/weather/api/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.4 - login (success)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"username\",\r\n    \"password\" : \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/weather/api/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.5 - login (after success -error)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"username\",\r\n    \"password\" : \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/weather/api/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Always allowed",
+			"item": [
+				{
+					"name": "3.0 - locations (success)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/weather/api/locations?name=Saint Petersburg",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"locations"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Saint Petersburg"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.1 - locations (not valid)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/weather/api/locations?name=",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"locations"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4.1 - get weather (success)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/weather/api/weather?lat=59.938732&lon=30.316229",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"weather"
+							],
+							"query": [
+								{
+									"key": "lat",
+									"value": "59.938732"
+								},
+								{
+									"key": "lon",
+									"value": "30.316229"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4.2 - get weather (not valid)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/weather/api/weather?lat=91&lon=-200",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"weather"
+							],
+							"query": [
+								{
+									"key": "lat",
+									"value": "91"
+								},
+								{
+									"key": "lon",
+									"value": "-200"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authorized (protected - need to login first)",
+			"item": [
+				{
+					"name": "5.0 - logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/weather/api/auth/logout",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5.1 - login again",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"username\",\r\n    \"password\" : \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/weather/api/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6.0 - get user (success)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/weather/api/user",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7.0 - update profile (success)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"newUsername\" : \"new_username\",\r\n    \"newAvatarUrl\" : \"new_avatar\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/weather/api/user/profile",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7.1 - update profile (not valid)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"newUsername\" : \"ne w_userna me\",\r\n    \"newAvatarUrl\" : \"new_avatar\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/weather/api/user/profile",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8.0 - update password (success)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"oldPassword\" : \"password\",\r\n   \"newPassword\" : \"password2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/weather/api/user/password",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"user",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8.1 - update password (incorrect password)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"oldPassword\" : \"password_3\",\r\n   \"newPassword\" : \"password2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/weather/api/user/password",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"user",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8.2 - update password (not valid new pass)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"oldPassword\" : \"password2\",\r\n   \"newPassword\" : \"pa ssw ord2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/weather/api/user/password",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"user",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9.0 - save location (success)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Moscow\",\r\n    \"state\": \"Moscow\",\r\n    \"country\": \"RU\",\r\n    \"lat\": 55.7504461,\r\n    \"lon\": 37.6174943\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/weather/api/user/locations",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"user",
+								"locations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9.1 - save location (already saved - error)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Moscow\",\r\n    \"state\": \"Moscow\",\r\n    \"country\": \"RU\",\r\n    \"lat\": 55.7504461,\r\n    \"lon\": 37.6174943\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/weather/api/user/locations",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"user",
+								"locations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9.2 - save location (not valid)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Moscow\",\r\n    \"state\": \"Moscow\",\r\n    \"country\": \"RURURU\",\r\n    \"lat\": 55.7504461,\r\n    \"lon\": 181\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/weather/api/user/locations",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"user",
+								"locations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10.0 get saved location by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/weather/api/user/locations/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"user",
+								"locations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10.1 get saved location by id (not valid id)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/weather/api/user/locations/888",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"user",
+								"locations",
+								"888"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11.0 - get all saved locations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/weather/api/user/locations",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"user",
+								"locations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "12.0 - get all weather",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/weather/api/user/locations/weather",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"user",
+								"locations",
+								"weather"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "13.0 - delete saved location",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/weather/api/user/locations/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"user",
+								"locations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "14.0 - delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/weather/api/user",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"weather",
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
