@@ -26,6 +26,5 @@ public class UserLocationWeatherService {
                                         .getWeatherByCoordinates(location.getLatitude(), location.getLongitude())
                         ))
                 .toList();
-
     }
 }
