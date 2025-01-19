@@ -42,6 +42,8 @@ app:
         default-limit: 5
       current-weather:
         url: data/2.5/weather?lat=%s&lon=%s&appid=%s&units=metric
+      forecast-weather:
+        url: data/2.5/forecast?lat=%s&lon=%s&appid=%s&units=metric
 
 
 

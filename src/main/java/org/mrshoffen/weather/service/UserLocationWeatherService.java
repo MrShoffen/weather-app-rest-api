@@ -2,7 +2,9 @@ package org.mrshoffen.weather.service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.mrshoffen.weather.model.dto.out.LocationResponseDto;
 import org.mrshoffen.weather.model.dto.out.LocationWeatherDto;
+import org.mrshoffen.weather.model.dto.out.WeatherForecastDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +17,7 @@ public class UserLocationWeatherService {
 
     private final UserLocationService userLocationService;
 
-    public List<LocationWeatherDto> getWeatherForAllSavedLocations(Integer userId) {
+    public List<LocationWeatherDto> getCurrentWeatherForAllSavedLocations(Integer userId) {
         return userLocationService
                 .getAllSavedLocations(userId)
                 .stream()
@@ -23,8 +25,18 @@ public class UserLocationWeatherService {
                         new LocationWeatherDto(
                                 location,
                                 openWeatherApiService
-                                        .getWeatherByCoordinates(location.getLatitude(), location.getLongitude())
+                                        .getCurrentWeatherByCoordinates(location.getLatitude(), location.getLongitude())
                         ))
                 .toList();
     }
+
+    public WeatherForecastDto getWeatherForecastForLocation(Integer userId, Integer locationId) {
+
+        LocationResponseDto location = userLocationService.getLocationByLocationId(userId, locationId);
+
+
+        return openWeatherApiService.getWeatherForecastByCoordinates(location.getLatitude(), location.getLongitude());
+    }
+
+
 }

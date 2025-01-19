@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.mrshoffen.weather.exception.weather.OpenWeatherApiException;
 import org.mrshoffen.weather.model.dto.out.LocationResponseDto;
 import org.mrshoffen.weather.model.dto.out.WeatherDto;
+import org.mrshoffen.weather.model.dto.out.WeatherForecastDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatusCode;
@@ -32,6 +33,9 @@ public class OpenWeatherApiService {
     @Value("${app.weather.open-weather-api.current-weather.url}")
     private String currentWeatherUrl;
 
+    @Value("${app.weather.open-weather-api.forecast-weather.url}")
+    private String forecastWeatherUrl;
+
     @Value("${app.weather.open-weather-api.key}")
     private String apiKey;
 
@@ -59,10 +63,31 @@ public class OpenWeatherApiService {
                 });
     }
 
-    public WeatherDto getWeatherByCoordinates(double lat, double lon) {
+    public WeatherDto getCurrentWeatherByCoordinates(double lat, double lon) {
         URI uri = URI.create(
                 baseUrl
                         + currentWeatherUrl
+                        .formatted(lat, lon,  apiKey)
+        );
+
+        return restClient.get()
+                .uri(uri)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .onStatus(status -> status.isError(),
+                        (request, response) -> {
+                            throw new OpenWeatherApiException("Open weather API error: %s, status: %s"
+                                    .formatted(response.getStatusText(), response.getStatusCode()));
+                        })
+                .body(new ParameterizedTypeReference<>() {
+                });
+    }
+
+
+    public WeatherForecastDto getWeatherForecastByCoordinates(double lat, double lon) {
+        URI uri = URI.create(
+                baseUrl
+                        + forecastWeatherUrl
                         .formatted(lat, lon,  apiKey)
         );
 

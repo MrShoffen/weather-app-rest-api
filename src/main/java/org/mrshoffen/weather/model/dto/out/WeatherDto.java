@@ -1,14 +1,22 @@
 package org.mrshoffen.weather.model.dto.out;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import lombok.Data;
 
+import java.time.*;
 import java.util.List;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WeatherDto {
+
+    //only for forecast
+    @JsonProperty("dt_txt")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime localDateTime;
+
 
     @JsonProperty("weather")
     private List<WeatherDescription> weatherDescription;
@@ -21,7 +29,6 @@ public class WeatherDto {
 
     @JsonProperty("clouds")
     private CloudState cloudState;
-
 
 
     @Data

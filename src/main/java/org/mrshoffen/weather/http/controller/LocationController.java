@@ -24,7 +24,7 @@ public class LocationController {
     private final OpenWeatherApiService weatherService;
 
     @GetMapping
-    public ResponseEntity<List<LocationResponseDto>> getLocations(@RequestParam(value = "name")
+    public ResponseEntity<List<LocationResponseDto>> findLocations(@RequestParam(value = "name")
                                                                   @Size(max = 128, message = "Name can't be larger than 128 symbols")
                                                                   @NotNull(message = "Name can't be null!")
                                                                   @NotBlank(message = "Name can't be empty!")

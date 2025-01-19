@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.mrshoffen.weather.model.dto.out.WeatherDto;
+import org.mrshoffen.weather.model.dto.out.WeatherForecastDto;
 import org.mrshoffen.weather.service.OpenWeatherApiService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/weather/api/weather")
 @Validated
-public class WeatherController {
+public class CurrentWeatherController {
 
     private final OpenWeatherApiService weatherService;
 
@@ -31,7 +32,8 @@ public class WeatherController {
                                                    @Max(value = 180, message = "Longitude must be a number between -180 and 180.")
                                                    Double lon) {
 
-        WeatherDto weatherDto = weatherService.getWeatherByCoordinates(lat, lon);
+        WeatherDto weatherDto = weatherService.getCurrentWeatherByCoordinates(lat, lon);
         return ResponseEntity.ok(weatherDto);
     }
+
 }
