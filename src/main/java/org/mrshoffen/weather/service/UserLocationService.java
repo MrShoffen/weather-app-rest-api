@@ -36,7 +36,7 @@ public class UserLocationService {
     }
 
     public List<LocationResponseDto> getAllSavedLocations(Integer userId) {
-        return locationRepository.findAllByUserIdOrderById(userId)
+        return locationRepository.findAllByUserIdOrderByIdDesc(userId)
                 .stream()
                 .map(locationMapper::toDto)
                 .toList();

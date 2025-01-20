@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface LocationRepository extends JpaRepository<Location, Integer> {
 
-    List<Location> findAllByUserIdOrderById(Integer userId);
+    List<Location> findAllByUserIdOrderByIdDesc(Integer userId);
 
     Optional<Location> findByIdAndUserId(Integer id, Integer userId);
 
