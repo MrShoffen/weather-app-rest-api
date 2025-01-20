@@ -23,14 +23,14 @@ public class SavedLocationsWeatherController {
     private final UserLocationWeatherService userLocationWeatherService;
 
     @GetMapping("/weather")
-    ResponseEntity<List<LocationWeatherDto>> getCurrentWeatherForLocation(@AuthorizedUser UserResponseDto authorizedUser) {
+    ResponseEntity<List<LocationWeatherDto>> getCurrentWeatherForAllLocations(@AuthorizedUser UserResponseDto authorizedUser) {
 
         List<LocationWeatherDto> locationsWithWeather =
                 userLocationWeatherService.getCurrentWeatherForAllSavedLocations(authorizedUser.getId());
         return ResponseEntity.ok(locationsWithWeather);
     }
 
-    @GetMapping("{locationId:\\d+}/weather")
+    @GetMapping("{locationId:\\d+}/forecast")
     ResponseEntity<WeatherForecastDto> getWeatherForecastForLocation(@AuthorizedUser UserResponseDto authorizedUser, @PathVariable("locationId") Integer locationId) {
 
         WeatherForecastDto forecast = userLocationWeatherService.getWeatherForecastForLocation(authorizedUser.getId(), locationId);
